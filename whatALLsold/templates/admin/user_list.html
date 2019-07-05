@@ -1,15 +1,16 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8"/>
 <title>后台管理系统</title>
 <meta name="author" content="DeathGhost" />
-<link rel="stylesheet" type="text/css" href="css/style.css">
+<link rel="stylesheet" type="text/css" href="{% static 'admin/css/style.css'%}">
 <!--[if lt IE 9]>
 <script src="js/html5.js"></script>
 <![endif]-->
-<script src="js/jquery.js"></script>
-<script src="js/jquery.mCustomScrollbar.concat.min.js"></script>
+<script src="{%static 'admin/js/jquery.js'%}"></script>
+<script src="{%static 'admin/js/jquery.mCustomScrollbar.concat.min.js'%}"></script>
 <script>
 
 	(function($){
@@ -55,9 +56,10 @@
    <dl>
     <dt>常用布局示例</dt>
     <!--当前链接则添加class:active-->
-    <dd><a href="product_list.html" class="active">商品列表示例</a></dd>
-    <dd><a href="product_detail.html">商品详情示例</a></dd>
-    <dd><a href="recycle_bin.html">商品回收站示例</a></dd>
+
+       <dd><a href="{% url 'admin:productlist' %}" class="active">商品列表示例</a></dd>
+    <dd><a href="{% url 'admin:productdetail' %}">商品详情示例</a></dd>
+    <dd><a href="{% url 'admin:recyclebin' %}">商品回收站示例</a></dd>
    </dl>
   </li>
   <li>
@@ -70,9 +72,9 @@
   <li>
    <dl>
     <dt>会员管理</dt>
-    <dd><a href="user_list.html">会员列表示例</a></dd>
+    <dd><a href="{% url 'admin:userlist' %}">会员列表示例</a></dd>
     <dd><a href="user_detail.html">添加会员（详情）示例</a></dd>
-    <dd><a href="user_rank.html">会员等级示例</a></dd>
+    <dd><a href="{% url 'admin:userrank' %}">会员等级示例</a></dd>
     <dd><a href="adjust_funding.html">会员资金管理示例</a></dd>
    </dl>
   </li>
@@ -106,7 +108,7 @@
  <div class="rt_content">
       <div class="page_title">
        <h2 class="fl">会员列表</h2>
-       <a href="user_detail.html" class="fr top_rt_btn add_icon">添加新会员</a>
+{#       <a href="{% url 'admin:' %}" class="fr top_rt_btn add_icon">添加新会员</a>#}
       </div>
       <section class="mtb">
        <select class="select">
@@ -124,50 +126,27 @@
         <th>会员账号</th>
         <th>手机号码</th>
         <th>电子邮件</th>
-        <th>验证</th>
         <th>会员等级</th>
         <th>账户余额</th>
-        <th>冻结资金</th>
         <th>操作</th>
        </tr>
+          {% for row in rows %}
        <tr>
-        <td class="center">001</td>
-        <td class="center"><img src="upload/user_002.png" width="50" height="50"/></td>
-        <td>DeathGhost</td>
-        <td class="center">18300000000</td>
-        <td class="center">deathghost@sina.cn</td>
-        <td class="center"><a title="已验证" class="link_icon">&#89;</a></td>
-        <td class="center">普通会员</td>
+        <td class="center">{{ row.0 }}</td>
+        <td class="center"><img src="{{ row.13 }}" width="50" height="50"/></td>
+        <td>{{ row.1 }}</td>
+        <td class="center">{{ row.4 }}</td>
+        <td class="center">{{ row.3}}</td>
+        <td class="center">{{ row.15 }}</td>
         <td class="center">
-         <strong class="rmb_icon">5559.00</strong>
+         <strong class="rmb_icon">{{ row.9 }}</strong>
         </td>
         <td class="center">
-         <strong class="rmb_icon">59.00</strong>
-        </td>
-        <td class="center">
-         <a href="user_detail.html" title="编辑" class="link_icon">&#101;</a>
+         <a href="{% url 'admin:userdetail' uid=row.0%}" title="编辑" class="link_icon">&#101;</a>
          <a href="#" title="删除" class="link_icon">&#100;</a>
         </td>
        </tr>
-       <tr>
-        <td class="center">002</td>
-        <td class="center"><img src="upload/user_001.png" width="50" height="50"/></td>
-        <td>DeathGhost02</td>
-        <td class="center">15800000000</td>
-        <td class="center">232650413@sina.cn</td>
-        <td class="center"><a title="未验证" class="link_icon">&#88;</a></td>
-        <td class="center">高级会员</td>
-        <td class="center">
-         <strong class="rmb_icon">199.00</strong>
-        </td>
-        <td class="center">
-         <strong class="rmb_icon">15.00</strong>
-        </td>
-        <td class="center">
-         <a href="user_detail.html" title="编辑" class="link_icon">&#101;</a>
-         <a href="#" title="删除" class="link_icon">&#100;</a>
-        </td>
-       </tr>
+          {% endfor %}
       </table>
       <aside class="paging">
        <a>第一页</a>

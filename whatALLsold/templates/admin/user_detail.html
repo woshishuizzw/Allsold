@@ -1,15 +1,16 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8"/>
 <title>后台管理系统</title>
 <meta name="author" content="DeathGhost" />
-<link rel="stylesheet" type="text/css" href="css/style.css">
+<link rel="stylesheet" type="text/css" href="{% static 'admin/css/style.css'%}">
 <!--[if lt IE 9]>
 <script src="js/html5.js"></script>
 <![endif]-->
-<script src="js/jquery.js"></script>
-<script src="js/jquery.mCustomScrollbar.concat.min.js"></script>
+<script src="{%static 'admin/js/jquery.js'%}"></script>
+<script src="{%static 'admin/js/jquery.mCustomScrollbar.concat.min.js'%}"></script>
 <script>
 
 	(function($){
@@ -37,7 +38,7 @@
 <body>
 <!--header-->
 <header>
- <h1><img src="images/admin_logo.png"/></h1>
+ <h1><img src=""/></h1>
  <ul class="rt_nav">
   <li><a href="http://www.mycodes.net" target="_blank" class="website_icon">站点首页</a></li>
   <li><a href="#" class="clear_icon">清除缓存</a></li>
@@ -55,9 +56,9 @@
    <dl>
     <dt>常用布局示例</dt>
     <!--当前链接则添加class:active-->
-    <dd><a href="product_list.html" class="active">商品列表示例</a></dd>
-    <dd><a href="product_detail.html">商品详情示例</a></dd>
-    <dd><a href="recycle_bin.html">商品回收站示例</a></dd>
+      <dd><a href="{% url 'admin:productlist' %}" class="active">商品列表示例</a></dd>
+    <dd><a href="{% url 'admin:productdetail' %}">商品详情示例</a></dd>
+    <dd><a href="{% url 'admin:recyclebin' %}">商品回收站示例</a></dd>
    </dl>
   </li>
   <li>
@@ -70,9 +71,9 @@
   <li>
    <dl>
     <dt>会员管理</dt>
-    <dd><a href="user_list.html">会员列表示例</a></dd>
+    <dd><a href="{% url 'admin:userlist' %}">会员列表示例</a></dd>
     <dd><a href="user_detail.html">添加会员（详情）示例</a></dd>
-    <dd><a href="user_rank.html">会员等级示例</a></dd>
+    <dd><a href="{% url 'admin:userrank' %}">会员等级示例</a></dd>
     <dd><a href="adjust_funding.html">会员资金管理示例</a></dd>
    </dl>
   </li>
@@ -103,86 +104,100 @@
 </aside>
 
 <section class="rt_wrap content mCustomScrollbar">
- <div class="rt_content">
-      <div class="page_title">
-       <h2 class="fl">会员详情</h2>
-       <a href="adjust_funding.html" class="fr top_rt_btn money_icon">资金管理</a>
-      </div>
-      <ul class="ulColumn2">
-       <li>
-        <span class="item_name" style="width:120px;">上传头像：</span>
-        <label class="uploadImg">
-         <input type="file"/>
-         <span>上传头像</span>
-        </label>
-       </li>
-       <li>
-        <span class="item_name" style="width:120px;">会员名称：</span>
-        <input type="text" class="textbox textbox_225" value="DeathGhost" placeholder="会员账号..."/>
-        <span class="errorTips">错误提示信息...</span>
-       </li>
-       <li>
-        <span class="item_name" style="width:120px;">登陆密码：</span>
-        <input type="password" class="textbox textbox_225" value="1830000000" placeholder="会员密码..."/>
-        <span class="errorTips">错误提示信息...</span>
-       </li>
-       <li>
-        <span class="item_name" style="width:120px;">会员等级：</span>
-        <select class="select">
-         <option>会员等级</option>
-         <option>普通会员</option>
-         <option>高级会员</option>
-        </select>
-       </li>
-       <li>
-        <span class="item_name" style="width:120px;">电子邮箱：</span>
-        <input type="email" class="textbox textbox_225" value="DeathGhost@sina.cn" placeholder="电子邮件地址..."/>
-        <span class="errorTips">错误提示信息...</span>
-       </li>
-       <li>
-        <span class="item_name" style="width:120px;">手机号码：</span>
-        <input type="tel" class="textbox textbox_225" value="18300000000" placeholder="手机号码..."/>
-        <span class="errorTips">错误提示信息...</span>
-       </li>
-       <li>
-        <span class="item_name" style="width:120px;">可用资金：</span>
-        <input type="text" class="textbox textbox_225" value="1599.00" placeholder="可用资金（单位：元）..." readonly/>
-        <span>元</span>
-       </li>
-       <li>
-        <span class="item_name" style="width:120px;">冻结资金：</span>
-        <input type="text" class="textbox textbox_225" value="100.00" placeholder="冻结资金（单位：元）..." readonly/>
-        <span>元</span>
-       </li>
-       <li>
-        <span class="item_name" style="width:120px;">收货地址：</span>
-        <select class="select">
-         <option>选择省份</option>
-         <option>陕西省</option>
-         <option>山西省</option>
-        </select>
-        <select class="select">
-         <option>选择城市</option>
-         <option>西安市</option>
-         <option>大同市</option>
-        </select>
-        <select class="select">
-         <option>选择区/县</option>
-         <option>长安县</option>
-         <option>不晓得</option>
-        </select>
-       </li>
-       <li>
-        <span class="item_name" style="width:120px;">详细地址：</span>
-        <input type="text" class="textbox textbox_295" value="陕西省西安市未央区凤城五路旺景国际大厦" placeholder="详细地址..."/>
-        <span class="errorTips">错误提示信息...</span>
-       </li>
-       <li>
-        <span class="item_name" style="width:120px;"></span>
-        <input type="submit" class="link_btn" value="更新/保存"/>
-       </li>
-      </ul>
- </div>
+ <form action="{% url 'admin:userdetail' uid=user.id %}" method="post"  enctype="multipart/form-data">
+     {% csrf_token %}
+     <div class="rt_content">
+          <div class="page_title">
+           <h2 class="fl">会员详情</h2>
+           <a href="adjust_funding.html" class="fr top_rt_btn money_icon">资金管理</a>
+          </div>
+          <ul class="ulColumn2">
+           <li>
+            <span class="item_name" style="width:120px;">上传头像：</span>
+            <label class="uploadImg" >
+             <img src="{{ user.picture }}" width="50" height="50"/>
+             <input type="file" name="photo"/>
+{#             <span>上传头像</span>#}
+            </label>
+           </li>
+
+           <li>
+            <span class="item_name" style="width:120px;">会员名称：</span>
+            <input type="text" class="textbox textbox_225" value="{{ user.username }}" placeholder="会员账号..." name="username"/>
+            <span class="errorTips">{{ form.username.errors }}</span>
+           </li>
+           <li>
+            <span class="item_name" style="width:120px;">登陆密码：</span>
+            <input type="password" class="textbox textbox_225" value="a18300000" placeholder="会员密码..." name="password"/>
+            <span class="errorTips">{{ form.passord.errors }}</span>
+           </li>
+           <li>
+            <span class="item_name" style="width:120px;">会员积分：</span>
+               <input type="text" value="{{ user.ugrade }}" name="ugrade">
+    {#        <select class="select">#}
+    {#         <option>会员等级</option>#}
+    {#         <option>普通会员</option>#}
+    {#         <option>高级会员</option>#}
+    {#        </select>#}
+           </li>
+           <li>
+            <span class="item_name" style="width:120px;">电子邮箱：</span>
+            <input type="email" class="textbox textbox_225" value="{{ user.email }}" placeholder="电子邮件地址..." name="email"/>
+            <span class="errorTips">{{ form.email.errors }}</span>
+           </li>
+           <li>
+            <span class="item_name" style="width:120px;">手机号码：</span>
+            <input type="tel" class="textbox textbox_225" value="{{ user.phone}}" placeholder="手机号码..." name="phone"/>
+            <span class="errorTips">{{ form.phone.errors }}</span>
+           </li>
+           <li>
+            <span class="item_name" style="width:120px;">可用资金：</span>
+            <input type="text" class="textbox textbox_225" value="{{ user.balance }}" placeholder="可用资金（单位：元）..." readonly/>
+            <span>元</span>
+           </li>
+    {#       <li>#}
+    {#        <span class="item_name" style="width:120px;">冻结资金：</span>#}
+    {#        <input type="text" class="textbox textbox_225" value="100.00" placeholder="冻结资金（单位：元）..." readonly/>#}
+    {#        <span>元</span>#}
+    {#       </li>#}
+           <li>
+            <span class="item_name" style="width:120px;">收货地址：</span>
+    {#        <select class="select">#}
+    {#         <option>选择省份</option>#}
+    {#         <option>陕西省</option>#}
+    {#         <option>山西省</option>#}
+    {#        </select>#}
+    {#        <select class="select">#}
+    {#         <option>选择城市</option>#}
+    {#         <option>西安市</option>#}
+    {#         <option>大同市</option>#}
+    {#        </select>#}
+    {#        <select class="select">#}
+    {#         <option>选择区/县</option>#}
+    {#         <option>长安县</option>#}
+    {#         <option>不晓得</option>#}
+    {#        </select>#}
+               省：<input type="text" value="{{ useraddr.province }}" name="province">
+
+               市：<input type="text" value="{{ useraddr.city }}" name="city">
+
+               区：<input type="text" value="{{ useraddr.district }}" name="district">
+               <span class="errorTips">{{ form.province.errors }}</span>
+               <span class="errorTips">{{ form.city.errors }}</span>
+               <span class="errorTips">{{ form.district.errors }}</span>
+           </li>
+           <li>
+            <span class="item_name" style="width:120px;">详细地址：</span>
+            <input type="text" class="textbox textbox_295" value="{{ useraddr.address }}" placeholder="详细地址..." name="address"/>
+            <span class="errorTips">{{ form.address.errors }}</span>
+           </li>
+           <li>
+            <span class="item_name" style="width:120px;"></span>
+            <input type="submit" class="link_btn" value="更新/保存"/>
+           </li>
+          </ul>
+     </div>
+ </form>
 </section>
 </body>
 </html>

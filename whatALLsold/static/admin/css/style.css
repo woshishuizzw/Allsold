@@ -156,8 +156,10 @@ header .rt_nav li .quit_icon:before{content:"Q";}
 .paging a:active{background:#17a578;border:1px #0e8f61 solid;}
 .single_selection{color:#333;padding:6px 8px;display:inline-block;vertical-align:middle;}
 .single_selection input{margin-right:3px;vertical-align:middle;}
-.errorTips{color:red;margin:0 8px;}
-.errorTips:before{content:"x";font-family:'adminthemesregular';margin-right:3px;font-size:16px;}
+/*.errorTips{color:red;margin:0 8px;}*/
+/*.errorTips:before{content:"x";font-family:'adminthemesregular';margin-right:3px;font-size:16px;}*/
+.errorlist{color:red;margin:0 8px;padding-left: 150px}
+/*.errorlist:before{content:"x";font-family:'adminthemesregular';margin-right:3px;font-size:16px;}*/
 .textarea{display:inline-block;margin-top:5px;outline:none;resize:none;border:1px #139667 solid;padding:8px;}
 .uploadImg{display:inline-block;padding:15px;background:#f8f8f8;position:relative;border:1px #139667 solid;}
 .uploadImg input{display:none;}
