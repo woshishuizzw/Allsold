@@ -142,3 +142,6 @@ EMAIL_HOST_PASSWORD = 'hcdtkurmtgwqcbcc'
 EMAIL_FROM = '尤洪<384333255@qq.com>'
 
 
+MEDIA_ROOT = 'static/app/images'
+
+
