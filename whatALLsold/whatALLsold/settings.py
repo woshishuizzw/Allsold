@@ -141,7 +141,7 @@ EMAIL_HOST_PASSWORD = 'hcdtkurmtgwqcbcc'
 #收件人看到的发件人 <此处要和发送邮件的邮箱相同>
 EMAIL_FROM = '尤洪<384333255@qq.com>'
 
-
+# 文件上传路径
 MEDIA_ROOT = 'static/app/images'
 
 

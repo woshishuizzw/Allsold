@@ -3,19 +3,42 @@ from random import randint
 
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
+from django.db import connection
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.core.mail import send_mail
 from django.conf import settings
 
-from App.models import User
+from App.models import User, Goods, Category, Perfume, Snacks, Brand
 from .forms import RegForm, LoginForm, GetpasswordForm
 
 
 # Create your views here.
 def index(request):
-    return render(request, "app/Index.html")
+    # 所有一级分类
+    category_one = Category.objects.filter(classgrade=1)
+    category_two = Category.objects.filter(classgrade=2)
+    category_three = Category.objects.filter(classgrade=3)
+    goodslist = Goods.objects.all()
+    perfumelist = Perfume.objects.all()
+    snackslist = Snacks.objects.all()
+    for goods in goodslist:
+        picture = goods.picture_set.filter(main=0).first().url
+        goods.picture = picture
+        for perfume in perfumelist:
+            if perfume.goods.id == goods.id:
+                goods.price = perfume.price
+        for sancks in snackslist:
+            if sancks.goods.id == goods.id:
+                goods.price = sancks.price
+
+    return render(request, "app/Index.html", context={
+        "category_one":category_one,
+        "category_two":category_two,
+        "category_three":category_three,
+        "goodsset":goodslist,
+    })
 
 
 def register(request):
@@ -100,3 +123,36 @@ def getpassword(request):
     else:
         form = GetpasswordForm()
     return render(request, "app/Getpassword.html", context={"form":form})
+
+
+def categorylist(request, threeid, brandid=0):
+
+    category_one = Category.objects.filter(classgrade=1)
+    category_two = Category.objects.filter(classgrade=2)
+    category_three = Category.objects.filter(classgrade=3)
+    if brandid == 0:
+        goodslist = Goods.objects.filter(threeclassid=threeid)
+    else:
+        goodslist = Goods.objects.filter(threeclassid=threeid, brand=brandid)
+    perfumelist = Perfume.objects.all()
+    snackslist = Snacks.objects.all()
+    brands = Brand.objects.all()
+    for goods in goodslist:
+        picture = goods.picture_set.filter(main=0).first().url
+        goods.picture = picture
+        for perfume in perfumelist:
+            if perfume.goods.id == goods.id:
+                goods.price = perfume.price
+        for sancks in snackslist:
+            if sancks.goods.id == goods.id:
+                goods.price = sancks.price
+
+    return render(request, "app/CategoryList.html", context={
+        "category_one": category_one,
+        "category_two": category_two,
+        "category_three": category_three,
+        "goodslist":goodslist,
+        "brands":brands,
+        "threeid":int(threeid)
+
+    })

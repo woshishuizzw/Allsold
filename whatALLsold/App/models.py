@@ -98,6 +98,7 @@ class Brand(models.Model):
     describe = models.CharField(max_length=200, null=True) # 品牌描述
     brandstatus = models.BooleanField(default=False) #品牌状态 0启用 1禁用
     orderby = models.IntegerField()   # 排序
+    cid = models.IntegerField(null=True) # 所属板块
 
     class Meta:
         db_table = "brand"
@@ -125,6 +126,7 @@ class Goods(models.Model):
     validity = models.CharField(max_length=5) # 有效期
     describe = models.CharField(max_length=200, null=True) # 商品描述
     brand = models.ForeignKey(to="Brand", on_delete=models.CASCADE, db_column="bid")# 品牌id
+    lookcount = models.IntegerField(default=0) # 浏览次数
 
     class Meta:
         db_table = "goods"
@@ -144,7 +146,7 @@ class Logistics(models.Model):
 # 商品库存表
 class Repertory(models.Model):
     gid = models.IntegerField(unique=True)  # 商品id
-    wid = models.IntegerField(unique=True)  # 仓库id
+    wid = models.IntegerField()  # 仓库id
     nowcount = models.IntegerField()  # 当前商品数量
 
     class Meta:

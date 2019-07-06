@@ -14,5 +14,4 @@ urlpatterns = [
     url(r'productdetail',views.productdetail,name='productdetail'),
     url(r'recyclebin',views.recyclebin,name='recyclebin'),
 
-
 ]
