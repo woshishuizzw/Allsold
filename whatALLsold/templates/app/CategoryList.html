@@ -77,8 +77,9 @@
           <tr valign="top">
             <td width="70">&nbsp; 品牌：</td>
             <td class="td_a">
+                <a href="">全部</a>
                 {% for brand in brands %}
-                    {% if brand.cid == threeid %}
+                    {% if brand.category.id == threeid %}
                 <a href="{% url "app:categorylist" threeid=threeid brandid=brand.id %}" class="">{{ brand.brandname }}</a>
                     {% endif %}
                 {% endfor %}
@@ -86,16 +87,17 @@
           </tr>
           <tr valign="top">
             <td>&nbsp; 价格：</td>                                                                                                       
-            <td class="td_a"><a href="#">0-199</a><a href="#" class="now">200-399</a><a href="#">400-599</a><a href="#">600-899</a><a href="#">900-1299</a><a href="#">1300-1399</a><a href="#">1400以上</a></td>
+            <td class="td_a">
+                <a href="">全部</a><a href="#">0-499</a><a href="#" class="now">500-999</a><a href="#">1000-1499</a><a href="#">1500以上</a></td>
           </tr>                                              
-          <tr>
-            <td>&nbsp; 类型：</td>
-            <td class="td_a"><a href="#">女士香水</a><a href="#">男士香水</a><a href="#">Q版香水</a><a href="#">组合套装</a><a href="#">香体走珠</a><a href="#">其它</a></td>
-          </tr>                                          
-          <tr>
-            <td>&nbsp; 香型：</td>                                       
-            <td class="td_a"><a href="#">浓香水</a><a href="#">香精Parfum香水</a><a href="#">淡香精EDP淡香水</a><a href="#">香露EDT</a><a href="#">古龙水</a><a href="#">其它</a></td>
-          </tr>                                                             
+{#          <tr>#}
+{#            <td>&nbsp; 类型：</td>#}
+{#            <td class="td_a"><a href="">全部</a><a href="#">女士香水</a><a href="#">男士香水</a><a href="#">其它</a></td>#}
+{#          </tr>                                          #}
+{#          <tr>#}
+{#            <td>&nbsp; 香型：</td>                                       #}
+{#            <td class="td_a"><a href="#">浓香水</a><a href="#">香精Parfum香水</a><a href="#">淡香精EDP淡香水</a><a href="#">香露EDT</a><a href="#">古龙水</a><a href="#">其它</a></td>#}
+{#          </tr>                                                             #}
         </table>                                                                                 
     </div>
     <!--End 筛选条件 End-->
@@ -167,11 +169,11 @@
                 <ul class="cate_list">
                     {% for goods in goodslist %}
                 	<li>
-                    	<div class="img"><a href="#"><img src="{{ goods.picture }}" width="210" height="185" /></a></div>
+                    	<div class="img"><a href="{% url "app:product" gid=goods.id %}"><img src="{{ goods.picture }}" width="210" height="185" /></a></div>
                         <div class="price">
                             <font>￥<span>{{ goods.price }}</span></font> &nbsp;
                         </div>
-                        <div class="name"><a href="#">{{ goods.goodsname }}</a></div>
+                        <div class="name"><a href="{% url "app:product" gid=goods.id %}">{{ goods.goodsname }}</a></div>
                         <div class="carbg">
                         	<a href="#" class="ss">收藏</a>
                             <a href="#" class="j_car">加入购物车</a>

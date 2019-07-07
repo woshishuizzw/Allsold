@@ -16,4 +16,8 @@ urlpatterns = [
     url(r"^getpassword/$", views.getpassword, name="getpassword"),
     url(r"^categorylist/(?P<threeid>\d+)/$", views.categorylist, name="categorylist"),
     url(r"^categorylist/(?P<threeid>\d+)/(?P<brandid>\d+)/$", views.categorylist, name="categorylist"),
+    url(r"^product/(?P<gid>\d+)/$", views.product, name="product"),
+    url(r"^docollect/$", views.docollect, name="docollect"),
+    url(r"^doshopping/$", views.doshopping, name="doshopping"),
+    url(r"^buycarone/$", views.buycarone, name="buycarone")
 ]
