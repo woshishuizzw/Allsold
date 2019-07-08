@@ -183,7 +183,6 @@ class Shoppingcart(models.Model):
 
 # 订单表
 class Order(models.Model):
-    oid = models.IntegerField(unique=True)  # 订单id
     onumber = models.CharField(max_length=30, unique=True)  # 订单编号
     user = models.ForeignKey(to="User", on_delete=models.CASCADE, db_column="uid")# 下单人id  就是用户id
     getername = models.CharField(max_length=30)  # 收货人姓名
@@ -191,34 +190,23 @@ class Order(models.Model):
     city = models.CharField(max_length=10)  # 市
     area = models.CharField(max_length=10)  # 区
     address = models.CharField(max_length=50)  # 仓库详细地址
+    phone = models.CharField(max_length=11, null=True) # 收货人电话
     paymothod = models.IntegerField(default=1)  # 支付方式  1--余额  2--网银 2--支付宝  4--微信
     money = models.FloatField()  # 订单金额
-    lname = models.CharField(max_length=30)  # 物流公司名称
+    lname = models.CharField(max_length=30, default="申通快递")  # 物流公司名称
     lnumber = models.CharField(max_length=30, unique=True)  # 快递单号
     ordertime = models.DateTimeField(auto_now_add=True)  # 下单时间
     delivertime = models.DateTimeField(null=True)  # 发货时间
     paytime = models.DateTimeField(null=True)  # 支付时间
     orderstatus = models.IntegerField()  # 1--待付款  2--待收货  3--已完成  4--已取消 5-待评论
     grade = models.IntegerField(default=5)  # 订单积分  默认一单五分
-
-
+    count = models.IntegerField(default=1)  # 购买商品数量
+    unitprice = models.FloatField(null=True)  # 购买商品单价
+    weight = models.FloatField(default=0)  # 商品重量
+    wid = models.IntegerField(default=1)  # 仓库id
+    goods = models.OneToOneField(to="Goods", db_column="gid", null=True)  # 订单商品id
     class Meta:
         db_table = 'order'
-
-
-# 订单详情表
-class Orderdetails(models.Model):
-    oid = models.IntegerField()  # 订单id
-    gid = models.IntegerField()  # 订单商品id
-    gname = models.CharField(max_length=100)  # 商品名称
-    count = models.IntegerField()  # 购买商品数量
-    unitprice = models.FloatField()  # 购买商品单价
-    weight = models.FloatField()  # 商品重量
-    offmoney = models.FloatField()  # 优惠分摊金额
-    wid = models.IntegerField()  # 仓库id
-
-    class Meta:
-        db_table = 'orderdetails'  # 订单详情
 
 
 # 商品评论表

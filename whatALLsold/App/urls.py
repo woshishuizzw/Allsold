@@ -21,4 +21,6 @@ urlpatterns = [
     url(r"^doshopping/$", views.doshopping, name="doshopping"),
     url(r"^buycarone/$", views.buycarone, name="buycarone"),
     url(r"^buycartwo/$", views.buycartwo, name="buycartwo"),
+    url(r"^buycarthree/$", views.buycarthree, name="buycarthree"),
+    url(r"^pay/$", views.pay, name="pay"),
 ]
