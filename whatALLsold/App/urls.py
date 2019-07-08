@@ -14,4 +14,5 @@ urlpatterns = [
     url(r"^membercollect/$", views.membercollect, name="membercollect"),
     url(r"^membersafe/$", views.membersafe, name="membersafe"),
     url(r"^getpassword/$", views.getpassword, name="getpassword"),
+
 ]

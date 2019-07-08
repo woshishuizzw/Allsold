@@ -124,6 +124,7 @@ class Goods(models.Model):
     producttime = models.CharField(max_length=30) # 生产日期
     validity = models.CharField(max_length=5) # 有效期
     describe = models.CharField(max_length=200, null=True) # 商品描述
+    lookcount = models.IntegerField(default=0)
     brand = models.ForeignKey(to="Brand", on_delete=models.CASCADE, db_column="bid")# 品牌id
 
     class Meta:
@@ -144,7 +145,7 @@ class Logistics(models.Model):
 # 商品库存表
 class Repertory(models.Model):
     gid = models.IntegerField(unique=True)  # 商品id
-    wid = models.IntegerField(unique=True)  # 仓库id
+    wid = models.IntegerField()  # 仓库id
     nowcount = models.IntegerField()  # 当前商品数量
 
     class Meta:

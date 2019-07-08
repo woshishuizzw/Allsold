@@ -56,9 +56,10 @@
    <dl>
     <dt>常用布局示例</dt>
     <!--当前链接则添加class:active-->
-    <dd><a href="product_list.html" class="active">商品列表示例</a></dd>
-    <dd><a href="product_detail.html">商品详情示例</a></dd>
-    <dd><a href="recycle_bin.html">商品回收站示例</a></dd>
+
+       <dd><a href="{% url 'admin:productlist' %}" class="active">商品列表示例</a></dd>
+    <dd><a href="{% url 'admin:productdetail' %}">商品详情示例</a></dd>
+    <dd><a href="{% url 'admin:recyclebin' %}">商品回收站示例</a></dd>
    </dl>
   </li>
   <li>
@@ -93,7 +94,7 @@
   <li>
    <dl>
     <dt>在线统计</dt>
-    <dd><a href="discharge_statistic.html">流量统计</a></dd>
+    <dd><a href="{% url 'admin:rankstatistic' %}">等级统计</a></dd>
     <dd><a href="sales_volume.html">销售额统计</a></dd>
    </dl>
   </li>
