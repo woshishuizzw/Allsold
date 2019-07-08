@@ -98,6 +98,7 @@ class Brand(models.Model):
     describe = models.CharField(max_length=200, null=True) # 品牌描述
     brandstatus = models.BooleanField(default=False) #品牌状态 0启用 1禁用
     orderby = models.IntegerField()   # 排序
+    category = models.ForeignKey(to="Category", on_delete=models.CASCADE, db_column="cid", null=True) # 所属板块
 
     class Meta:
         db_table = "brand"
@@ -126,6 +127,7 @@ class Goods(models.Model):
     describe = models.CharField(max_length=200, null=True) # 商品描述
     lookcount = models.IntegerField(default=0)
     brand = models.ForeignKey(to="Brand", on_delete=models.CASCADE, db_column="bid")# 品牌id
+    lookcount = models.IntegerField(default=0) # 浏览次数
 
     class Meta:
         db_table = "goods"
@@ -169,8 +171,8 @@ class Warehouseinfo(models.Model):
 
 # 购物车表
 class Shoppingcart(models.Model):
-    user = models.ForeignKey(to="User", on_delete=models.CASCADE, db_column="uid")    # 用户id
-    goods = models.ForeignKey(to="Goods", on_delete=models.CASCADE, db_column="gid")  # 商品id
+    user = models.ForeignKey(to="User", on_delete=models.CASCADE, db_column="uid", null=True)    # 用户id
+    goods = models.ForeignKey(to="Goods", on_delete=models.CASCADE, db_column="gid", null=True)  # 商品id
     count = models.IntegerField(default=0)  # 加入购物车商品数量  默认误0
     price = models.FloatField()  # 商品价格
     addtime = models.DateTimeField(auto_now_add=True)  # 加入购物车时间
@@ -255,8 +257,7 @@ class Snacks(models.Model):
     allow_number = models.IntegerField()  # 生产许可证号
     pack = models.CharField(max_length=20)  # 商品包装
     price = models.FloatField()  # 价格
-    goods = models.OneToOneField(to="Goods", on_delete=models.CASCADE, db_column="gid")
-
+    goods = models.OneToOneField(to="Goods", on_delete=models.CASCADE, db_column="gid", null=True)
 
     class Meta:
         db_table = 'snacks'
@@ -275,7 +276,7 @@ class Perfume(models.Model):
     person = models.CharField(max_length=30)  # 适合人群
     pack = models.CharField(max_length=20)  # 商品包装
     price = models.FloatField()  # 价格
-    goods = models.OneToOneField(to="Goods", on_delete=models.CASCADE, db_column="gid")
+    goods = models.OneToOneField(to="Goods", on_delete=models.CASCADE, db_column="gid", null=True)
 
     class Meta:
         db_table = 'perfume'
