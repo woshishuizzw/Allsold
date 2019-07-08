@@ -20,12 +20,19 @@ def index(request):
     category_two = Category.objects.filter(classgrade=2)
     category_three = Category.objects.filter(classgrade=3)
     username = request.session.get("username")
-    if username:
-        user = User.objects.get(username=username)
-        shopping = user.shoppingcart_set.all()
     goodslist = Goods.objects.all()
     perfumelist = Perfume.objects.all()
     snackslist = Snacks.objects.all()
+    # 取出用户的购物车中商品
+    if username:
+        user = User.objects.get(username=username)
+        shopping = user.shoppingcart_set.all()
+        for goods in shopping:
+            picture = goods.goods.picture_set.filter(main=0).first().url
+            goods.picture = picture
+    else:
+        shopping = None
+    # 去除所有商品
     for goods in goodslist:
         picture = goods.picture_set.filter(main=0).first().url
         goods.picture = picture
@@ -133,12 +140,22 @@ def categorylist(request, threeid, brandid=0):
     category_one = Category.objects.filter(classgrade=1)
     category_two = Category.objects.filter(classgrade=2)
     category_three = Category.objects.filter(classgrade=3)
+    username = request.session.get("username")
+    perfumelist = Perfume.objects.all()
+    snackslist = Snacks.objects.all()
+    # 取出用户的购物车中商品
+    if username:
+        user = User.objects.get(username=username)
+        shopping = user.shoppingcart_set.all()
+        for goods in shopping:
+            picture = goods.goods.picture_set.filter(main=0).first().url
+            goods.picture = picture
+    else:
+        shopping = None
     if brandid == 0:
         goodslist = Goods.objects.filter(threeclassid=threeid)
     else:
         goodslist = Goods.objects.filter(threeclassid=threeid, brand=brandid)
-    perfumelist = Perfume.objects.all()
-    snackslist = Snacks.objects.all()
     brands = Brand.objects.all()
     for goods in goodslist:
         picture = goods.picture_set.filter(main=0).first().url
@@ -156,8 +173,8 @@ def categorylist(request, threeid, brandid=0):
         "category_three": category_three,
         "goodslist":goodslist,
         "brands":brands,
-        "threeid":int(threeid)
-
+        "threeid":int(threeid),
+        "shopping": shopping,
     })
 
 
@@ -165,6 +182,16 @@ def product(request, gid):
     category_one = Category.objects.filter(classgrade=1)
     category_two = Category.objects.filter(classgrade=2)
     category_three = Category.objects.filter(classgrade=3)
+    username = request.session.get("username")
+    # 取出用户的购物车中商品
+    if username:
+        user = User.objects.get(username=username)
+        shopping = user.shoppingcart_set.all()
+        for goods in shopping:
+            picture = goods.goods.picture_set.filter(main=0).first().url
+            goods.picture = picture
+    else:
+        shopping = None
     goods = Goods.objects.get(pk=int(gid))
     perfumelist = Perfume.objects.all()
     snackslist = Snacks.objects.all()
@@ -182,7 +209,8 @@ def product(request, gid):
         "category_two": category_two,
         "category_three": category_three,
         "goods":goods,
-        "pictures":pictures
+        "pictures":pictures,
+        "shopping": shopping,
     })
 
 
@@ -214,4 +242,35 @@ def doshopping(request):
 
 
 def buycarone(request):
-    return render(request,"app/BuyCar.html")
+    category_one = Category.objects.filter(classgrade=1)
+    category_two = Category.objects.filter(classgrade=2)
+    category_three = Category.objects.filter(classgrade=3)
+    username = request.session.get("username")
+    perfumelist = Perfume.objects.all()
+    snackslist = Snacks.objects.all()
+    # 取出用户的购物车中商品
+    if username:
+        user = User.objects.get(username=username)
+        shopping = user.shoppingcart_set.all()
+        for goods in shopping:
+            picture = goods.goods.picture_set.filter(main=0).first().url
+            goods.picture = picture
+            for perfume in perfumelist:
+                if perfume.goods.id == goods.goods.id:
+                    goods.propertys = perfume
+            for sancks in snackslist:
+                if sancks.goods.id == goods.goods.id:
+                    goods.propertys = sancks
+    else:
+        shopping = None
+    return render(request,"app/BuyCar.html", context={
+        "category_one": category_one,
+        "category_two": category_two,
+        "category_three": category_three,
+        "shopping": shopping,
+
+    })
+
+
+def buycartwo(request):
+    return render(request, "app/BuyCar_Two.html")

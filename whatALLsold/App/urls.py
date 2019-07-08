@@ -19,5 +19,6 @@ urlpatterns = [
     url(r"^product/(?P<gid>\d+)/$", views.product, name="product"),
     url(r"^docollect/$", views.docollect, name="docollect"),
     url(r"^doshopping/$", views.doshopping, name="doshopping"),
-    url(r"^buycarone/$", views.buycarone, name="buycarone")
+    url(r"^buycarone/$", views.buycarone, name="buycarone"),
+    url(r"^buycartwo/$", views.buycartwo, name="buycartwo"),
 ]

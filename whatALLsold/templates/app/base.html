@@ -78,7 +78,7 @@
                     <ul class="cars">
                     {% for shangpin in shopping %}
                         <li>
-                            <div class="img"><a href="#"><img src="/static/app/images/car1.jpg" width="58" height="58" /></a></div>
+                            <div class="img"><a href="#"><img src="{{ shangpin.picture }}" width="58" height="58" /></a></div>
                             <div class="name"><a href="#">{{ shangpin.goods.goodsname }}</a></div>
                             <div class="price"><font color="#ff4e00">￥{{ shangpin.price }}</font> X{{ shangpin.count }}</div>
                         </li>

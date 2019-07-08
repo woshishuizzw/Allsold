@@ -2,16 +2,16 @@
 {% load static %}
 {% block js %}
     
-    <script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
-    <script type="text/javascript" src="js/menu.js"></script>    
+    <script type="text/javascript" src="{% static "app/js/jquery-1.8.2.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "app/js/menu.js" %}"></script>
                 
-	<script type="text/javascript" src="js/n_nav.js"></script>   
+	<script type="text/javascript" src="{% static "app/js/n_nav.js" %}"></script>
     
-    <script type="text/javascript" src="js/num.js">
+    <script type="text/javascript" src="{% static "app/js/num.js" %}">
     	var jq = jQuery.noConflict();
     </script>     
     
-    <script type="text/javascript" src="js/shade.js"></script>
+    <script type="text/javascript" src="{% static "app/js/shade.js" %}"></script>
 {% endblock js %}
 {% block title %}购物车{% endblock title %}
 
@@ -72,7 +72,7 @@
 {% block body %}
 <div class="i_bg">  
     <div class="content mar_20">
-    	<img src="images/img1.jpg" />        
+    	<img src="{% static "app/images/img1.jpg" %}" />
     </div>
     
     <!--Begin 第一步：查看购物车 Begin -->
@@ -86,12 +86,13 @@
             <td class="car_th" width="140">返还积分</td>
             <td class="car_th" width="150">操作</td>
           </tr>
+          {% for shangpin in shopping %}
           <tr>
             <td>
-            	<div class="c_s_img"><img src="images/c_1.jpg" width="73" height="73" /></div>
-                Rio 锐澳 水蜜桃味白兰地鸡尾酒（预调酒） 275ml
+            	<div class="c_s_img"><img src="{{ shangpin.picture }}" width="73" height="73" /></div>
+                {{ shangpin.goods.goodsname }}
             </td>
-            <td align="center">颜色：灰色</td>
+            <td align="center">颜色：{{ shangpin.propertys.color }}</td>
             <td align="center">
             	<div class="c_num">
                     <input type="button" value="" onclick="jianUpdate1(jq(this));" class="car_btn_1" />
@@ -99,61 +100,62 @@
                     <input type="button" value="" onclick="addUpdate1(jq(this));" class="car_btn_2" />
                 </div>
             </td>
-            <td align="center" style="color:#ff4e00;">￥620.00</td>
+            <td align="center" style="color:#ff4e00;">￥{{ shangpin.price }}</td>
             <td align="center">26R</td>
             <td align="center"><a onclick="ShowDiv('MyDiv','fade')">删除</a>&nbsp; &nbsp;<a href="#">加入收藏</a></td>
           </tr>
-          <tr class="car_tr">
-            <td>
-            	<div class="c_s_img"><img src="images/c_2.jpg" width="73" height="73" /></div>
-                Rio 锐澳 水蜜桃味白兰地鸡尾酒（预调酒） 275ml
-            </td>
-            <td align="center">颜色：灰色</td>
-            <td align="center">
-            	<div class="c_num">
-                    <input type="button" value="" onclick="jianUpdate1(jq(this));" class="car_btn_1" />
-                	<input type="text" value="1" name="" class="car_ipt" />  
-                    <input type="button" value="" onclick="addUpdate1(jq(this));" class="car_btn_2" />
-                </div>
-            </td>
-            <td align="center" style="color:#ff4e00;">￥620.00</td>
-            <td align="center">26R</td>
-            <td align="center"><a href="#">删除</a>&nbsp; &nbsp;<a href="#">加入收藏</a></td>
-          </tr>
-          <tr>
-            <td>
-            	<div class="c_s_img"><img src="images/c_3.jpg" width="73" height="73" /></div>
-                Rio 锐澳 水蜜桃味白兰地鸡尾酒（预调酒） 275ml
-            </td>
-            <td align="center">颜色：灰色</td>
-            <td align="center">
-            	<div class="c_num">
-                    <input type="button" value="" onclick="jianUpdate1(jq(this));" class="car_btn_1" />
-                	<input type="text" value="1" name="" class="car_ipt" />  
-                    <input type="button" value="" onclick="addUpdate1(jq(this));" class="car_btn_2" />
-                </div>
-            </td>
-            <td align="center" style="color:#ff4e00;">￥620.00</td>
-            <td align="center">26R</td>
-            <td align="center"><a href="#">删除</a>&nbsp; &nbsp;<a href="#">加入收藏</a></td>
-          </tr>
-          <tr class="car_tr">
-            <td>
-            	<div class="c_s_img"><img src="images/c_4.jpg" width="73" height="73" /></div>
-                Rio 锐澳 水蜜桃味白兰地鸡尾酒（预调酒） 275ml
-            </td>
-            <td align="center">颜色：灰色</td>
-            <td align="center">
-            	<div class="c_num">
-                    <input type="button" value="" onclick="jianUpdate1(jq(this));" class="car_btn_1" />
-                	<input type="text" value="1" name="" class="car_ipt" />  
-                    <input type="button" value="" onclick="addUpdate1(jq(this));" class="car_btn_2" />
-                </div>
-            </td>
-            <td align="center" style="color:#ff4e00;">￥620.00</td>
-            <td align="center">26R</td>
-            <td align="center"><a href="#">删除</a>&nbsp; &nbsp;<a href="#">加入收藏</a></td>
-          </tr>
+          {% endfor %}
+{#          <tr class="car_tr">#}
+{#            <td>#}
+{#            	<div class="c_s_img"><img src="images/c_2.jpg" width="73" height="73" /></div>#}
+{#                Rio 锐澳 水蜜桃味白兰地鸡尾酒（预调酒） 275ml#}
+{#            </td>#}
+{#            <td align="center">颜色：灰色</td>#}
+{#            <td align="center">#}
+{#            	<div class="c_num">#}
+{#                    <input type="button" value="" onclick="jianUpdate1(jq(this));" class="car_btn_1" />#}
+{#                	<input type="text" value="1" name="" class="car_ipt" />  #}
+{#                    <input type="button" value="" onclick="addUpdate1(jq(this));" class="car_btn_2" />#}
+{#                </div>#}
+{#            </td>#}
+{#            <td align="center" style="color:#ff4e00;">￥620.00</td>#}
+{#            <td align="center">26R</td>#}
+{#            <td align="center"><a href="#">删除</a>&nbsp; &nbsp;<a href="#">加入收藏</a></td>#}
+{#          </tr>#}
+{#          <tr>#}
+{#            <td>#}
+{#            	<div class="c_s_img"><img src="images/c_3.jpg" width="73" height="73" /></div>#}
+{#                Rio 锐澳 水蜜桃味白兰地鸡尾酒（预调酒） 275ml#}
+{#            </td>#}
+{#            <td align="center">颜色：灰色</td>#}
+{#            <td align="center">#}
+{#            	<div class="c_num">#}
+{#                    <input type="button" value="" onclick="jianUpdate1(jq(this));" class="car_btn_1" />#}
+{#                	<input type="text" value="1" name="" class="car_ipt" />  #}
+{#                    <input type="button" value="" onclick="addUpdate1(jq(this));" class="car_btn_2" />#}
+{#                </div>#}
+{#            </td>#}
+{#            <td align="center" style="color:#ff4e00;">￥620.00</td>#}
+{#            <td align="center">26R</td>#}
+{#            <td align="center"><a href="#">删除</a>&nbsp; &nbsp;<a href="#">加入收藏</a></td>#}
+{#          </tr>#}
+{#          <tr class="car_tr">#}
+{#            <td>#}
+{#            	<div class="c_s_img"><img src="images/c_4.jpg" width="73" height="73" /></div>#}
+{#                Rio 锐澳 水蜜桃味白兰地鸡尾酒（预调酒） 275ml#}
+{#            </td>#}
+{#            <td align="center">颜色：灰色</td>#}
+{#            <td align="center">#}
+{#            	<div class="c_num">#}
+{#                    <input type="button" value="" onclick="jianUpdate1(jq(this));" class="car_btn_1" />#}
+{#                	<input type="text" value="1" name="" class="car_ipt" />  #}
+{#                    <input type="button" value="" onclick="addUpdate1(jq(this));" class="car_btn_2" />#}
+{#                </div>#}
+{#            </td>#}
+{#            <td align="center" style="color:#ff4e00;">￥620.00</td>#}
+{#            <td align="center">26R</td>#}
+{#            <td align="center"><a href="#">删除</a>&nbsp; &nbsp;<a href="#">加入收藏</a></td>#}
+{#          </tr>#}
           <tr height="70">
           	<td colspan="6" style="font-family:'Microsoft YaHei'; border-bottom:0;">
             	<label class="r_rad"><input type="checkbox" name="clear" checked="checked" /></label><label class="r_txt">清空购物车</label>
@@ -162,7 +164,7 @@
           </tr>
           <tr valign="top" height="150">
           	<td colspan="6" align="right">
-            	<a href="#"><img src="images/buy1.gif" /></a>&nbsp; &nbsp; <a href="#"><img src="images/buy2.gif" /></a>
+            	<a href="#"><img src="{% static "app/images/buy1.gif" %}" /></a>&nbsp; &nbsp; <a href="{% url "app:buycartwo" %}"><img src="{% static "app/images/buy2.gif" %}" /></a>
             </td>
           </tr>
         </table>
@@ -176,7 +178,7 @@
     <div id="MyDiv" class="white_content">             
         <div class="white_d">
             <div class="notice_t">
-                <span class="fr" style="margin-top:10px; cursor:pointer;" onclick="CloseDiv('MyDiv','fade')"><img src="images/close.gif" /></span>
+                <span class="fr" style="margin-top:10px; cursor:pointer;" onclick="CloseDiv('MyDiv','fade')"><img src="{% static "app/images/close.gif" %}" /></span>
             </div>
             <div class="notice_c">
            		
