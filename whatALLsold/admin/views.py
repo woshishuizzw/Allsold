@@ -4,30 +4,36 @@ import os
 from datetime import datetime
 from random import randint
 
+from django.core.paginator import Paginator
 from django.db import connection
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 
 # Create your views here.
 from django.urls import reverse
+from django.views.decorators.csrf import csrf_exempt
 
 from App.models import *
 from admin.forms import UserForm
+from admin.sms import send_sms
 from whatALLsold import settings
+from whatALLsold.settings import NUMOFPAGE, SMSCONFIG
 
 
 def login(request):
     if request.method=='POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
+        code = request.POST.get('code')
+        if code == request.session.get('smscode'):
         # password = hashlib.sha1(password.encode('utf-8')).hexdigest()
-        res = User.objects.filter(username=username,password=password).values('username','id')
-        print('*'*50)
-        if len(res)>0:
-            request.session['username']=res[0]['username']
-            request.session['uid'] =res[0]['id']
-            print(request.session['username'])
-            return redirect(reverse('admin:index'))
+            res = User.objects.filter(username=username,password=password).values('username','id')
+            print('*'*50)
+            if len(res)>0:
+                request.session['username']=res[0]['username']
+                request.session['uid'] =res[0]['id']
+                print(request.session['username'])
+                return redirect(reverse('admin:index'))
 
     return render(request,'admin/login1.html')
 
@@ -215,16 +221,48 @@ def userdetail(request,uid): #uid是用户的id
             return render(request, 'admin/user_detail.html', context={'user': user, 'useraddr': useraddr})
     return render(request,'admin/user_detail.html',context={'user':user,'useraddr':useraddr,'form':form})
 
+#将原生sql结果转成查询结果集
+def dictfetchall(cursor):
+    "将游标返回的结果保存到一个字典对象中"
+    desc = cursor.description
+    return [
+    dict(zip([col[0] for col in desc], row))
+    for row in cursor.fetchall()
+    ]
 
-def userlist(request):
-    # userlist = User.objects.filter(usertype=0).all()
-    # print('*'*100)
-    # print(userlist)
+def userlist(request,page=1):
+    # users = User.objects.all()
+    # print(users)
     cursor = connection.cursor()
     cursor.execute("select * from user u join userlevel l on u.ugrade between l.mingrade and maxgrade where u.usertype=0")
-    rows = cursor.fetchall()
-    print(rows)
-    return render(request,'admin/user_list.html',context={'rows':rows})
+    #转成查询结果集
+    dict = dictfetchall(cursor)
+    print(dict)
+    #创建分页器
+    paginator = Paginator(dict,NUMOFPAGE)
+    #创建分页对象
+    page = int(page)
+    pagination = paginator.page(page)
+    #自定义页码范围
+    if paginator.num_pages>10:
+        #如果当前页码-5小于0
+        if page - 5 <=0:
+            customRange = range(1,11)
+        elif page + 4 > paginator.num_pages:
+            customRange = range(paginator.num_pages - 9, paginator.num_pages + 1)
+        else:
+            customRange = range(page-5,page+5)
+    else:  # 页码总数小于10
+        customRange = paginator.page_range
+
+    # rows = cursor.fetchall()
+    # print(rows)
+
+    return render(request,'admin/user_list.html',context={
+        'data': pagination.object_list,
+        'pagerange': customRange,
+        'pagination': pagination
+    })
 
 
 def userrank(request):
@@ -241,8 +279,35 @@ def rankstatistic(request):
     })
 
 
-def recyclebin(request):
-    return render(request,'admin/recycle_bin.html')
+def recyclebin(request,gid=0):
+    if gid != 0:
+        setgoods = Goods.objects.get(pk=gid)
+        setgoods.upstatus = 1
+        setgoods.save()
+    downgoods = Goods.objects.filter(upstatus=1).all()
+    categorylist = Category.objects.filter(classgrade=3).all()
+    repertorylist = Repertory.objects.all()  # 库存信息查询结果集
+    snackslist = Snacks.objects.all()
+    perfumelist = Perfume.objects.all()
+    for goods in downgoods:
+        picture = goods.picture_set.filter(main=0).first().url  # 商品主图路径
+        print(picture)
+        goods.picture = picture
+        for repertory in repertorylist:
+            if goods.id == repertory.gid:
+                goods.nowcount = repertory.nowcount
+        for snacks in snackslist:
+            if goods.id == snacks.goods.id:
+                goods.price = snacks.price
+        for perfume in perfumelist:
+            if goods.id == perfume.goods.id:
+                goods.price = perfume.price
+
+    return render(request, 'admin/recycle_bin.html', context={
+        'categorylist': categorylist, 'downgoods': downgoods, 'repertorylist': repertorylist, 'snackslist': snackslist,'perfumelist': perfumelist
+    })
+
+
 
 
 def productdetailadd(request,gid,which=0):
@@ -321,3 +386,41 @@ def paylist(request):
 
 def expressadd(request):
     return render(request,'admin/express_add.html')
+
+
+def detelegoods(request,gid):
+    deteleobj = Goods.objects.get(pk=gid)
+    deteleobj.delete()
+    return redirect(reverse('admin:recyclebin'))
+
+
+def restore(request,gid):
+    restoreobj = Goods.objects.get(pk=gid)
+    restoreobj.upstatus=0
+    restoreobj.save()
+    return redirect(reverse('admin:productlist'))
+def salesvolume(request):
+    return render(request,'admin/sales_volume.html')
+
+
+def orderlist(request):
+    orders = Order.objects.all()
+    return render(request,'admin/order_list.html',context={
+        'orders':orders
+    })
+@csrf_exempt
+def getcode(request):
+    if request.method == 'POST':
+        num = randint(100000,999999)
+        print(num)
+        request.session['smscode'] = str(num)
+        phone = request.POST.get('phone')
+        send_sms(phone,{'code':str(num)},**SMSCONFIG)
+        return JsonResponse({'code':1,'msg':'ok'})
+def flowstatistics(request):
+    flows = Flow.objects.all()
+    datelist = [flow.ftime for flow in flows ]
+    viewlist = [flow.view for flow in flows]
+    return render(request,'admin/flowstatistics.html',context={
+        'datelist':datelist,'viewlist':viewlist
+    })

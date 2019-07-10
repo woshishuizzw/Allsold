@@ -54,47 +54,34 @@
  <ul>
   <li>
    <dl>
-    <dt>常用布局示例</dt>
+    <dt>商品信息</dt>
     <!--当前链接则添加class:active-->
-    <dd><a href="product_list.html" class="active">商品列表示例</a></dd>
-    <dd><a href="product_detail.html">商品详情示例</a></dd>
-    <dd><a href="recycle_bin.html">商品回收站示例</a></dd>
+    <dd><a href="{% url 'admin:productlist' %}" class="active">商品列表</a></dd>
+    <dd><a href="{% url 'admin:productdetail' %}">添加商品</a></dd>
+    <dd><a href="{% url 'admin:recyclebin' %}">商品回收站</a></dd>
    </dl>
   </li>
   <li>
    <dl>
     <dt>订单信息</dt>
-    <dd><a href="order_list.html">订单列表示例</a></dd>
+    <dd><a href="{% url 'admin:orderlist' %}">订单列表示例</a></dd>
     <dd><a href="order_detail.html">订单详情示例</a></dd>
    </dl>
   </li>
   <li>
    <dl>
     <dt>会员管理</dt>
-    <dd><a href="user_list.html">会员列表示例</a></dd>
-    <dd><a href="user_detail.html">添加会员（详情）示例</a></dd>
-    <dd><a href="user_rank.html">会员等级示例</a></dd>
+    <dd><a href="{% url 'admin:userlist' %}">会员列表</a></dd>
+    <dd><a href="{% url 'admin:userrank' %}">会员等级示例</a></dd>
     <dd><a href="adjust_funding.html">会员资金管理示例</a></dd>
    </dl>
   </li>
   <li>
    <dl>
-    <dt>基础设置</dt>
-    <dd><a href="setting.html">站点基础设置示例</a></dd>
-   </dl>
-  </li>
-  <li>
-   <dl>
-    <dt>配送与支付设置</dt>
-    <dd><a href="express_list.html">配送方式</a></dd>
-    <dd><a href="pay_list.html">支付方式</a></dd>
-   </dl>
-  </li>
-  <li>
-   <dl>
     <dt>在线统计</dt>
-    <dd><a href="discharge_statistic.html">流量统计</a></dd>
-    <dd><a href="sales_volume.html">销售额统计</a></dd>
+    <dd><a href="{% url 'admin:rankstatistic' %}">等级统计</a></dd>
+    <dd><a href="{% url 'admin:salesvolume' %}">销售额统计</a></dd>
+    <dd><a href="{% url 'admin:flowstatistics' %}">流量统计</a></dd>
    </dl>
   </li>
   <li>
@@ -129,34 +116,22 @@
         <th>配送方式</th>
         <th>操作</th>
        </tr>
+      {% for order in orders %}
        <tr>
-        <td class="center">201602011207</td>
-        <td>DeathGhost</td>
-        <td>18300000000</td>
+        <td class="center">{{ order.onumber }}</td>
+        <td>{{ order.getername }}</td>
+        <td>{{ order.phone }}</td>
         <td>
-         <address>陕西省西安市未央区幸福路222号</address>
+         <address>{{ order.province }}{{ order.city }}{{ order.area }}{{ order.address }}</address>
         </td>
-        <td class="center"><strong class="rmb_icon">59.00</strong></td>
+        <td class="center"><strong class="rmb_icon">{{ orer.money }}</strong></td>
         <td class="center">申通快递</td>
         <td class="center">
          <a href="#" title="查看订单" class="link_icon" target="_blank">&#118;</a>
          <a href="#" title="删除" class="link_icon">&#100;</a>
         </td>
        </tr>
-       <tr>
-        <td class="center">201602011207</td>
-        <td>DeathGhost</td>
-        <td>18300000000</td>
-        <td>
-         <address>陕西省西安市未央区幸福路222号</address>
-        </td>
-        <td class="center"><strong class="rmb_icon">59.00</strong></td>
-        <td class="center">圆通快递</td>
-        <td class="center">
-         <a href="#" title="查看订单" class="link_icon" target="_blank">&#118;</a>
-         <a href="#" title="删除" class="link_icon">&#100;</a>
-        </td>
-       </tr>
+        {% endfor %}
       </table>
       <aside class="paging">
        <a>第一页</a>

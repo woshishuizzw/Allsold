@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
 <title>bootstrap后台登录表单代码 - 站长素材</title>
-
+<script src="{% static 'admin/js/jquery-1.11.1.min_044d0927.js' %}"></script>
 <link href="{%static 'admin/css/bootstrap.min.css'%}" title="" rel="stylesheet" />
 <link title="orange" href="{%static 'admin/css/login.css'%}" rel="stylesheet" type="text/css">
 
@@ -18,7 +18,7 @@
 	<h1>登陆</h1>
  </header>
  <div class="sr">
-	<form action="{% url 'admin:login' %}" method="post">
+	<form action="{% url 'admin:login' %}" method="post" id="form1">
         {% csrf_token %}
 		<div class="name">
 			<label>
@@ -32,6 +32,14 @@
 			</label>
 			<input type="text"  placeholder="这里输入登录密码" class="name_inp" name="password">
 		</div>
+        <div class="name">
+			<label>
+			<i class="sublist-icon glyphicon glyphicon-pencil"></i>
+			</label>
+			<input type="text"  placeholder="这里输入手机号" class="name_inp" name="password"><br>
+            <input type="text" name="code"> <button>获取验证码</button>
+		</div>
+
 		<button class="dl">登陆</button>
 	</form>
  </div>
@@ -43,4 +51,10 @@
 </div>
 </body>
 </html>
+<script>
+    $('button').click(function(ev){
+        ev.preventDefault()
+        $.post("{% url 'admin:getcode' %}",$('#form1').serialize())
+    });
+</script>
 

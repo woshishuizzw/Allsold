@@ -109,7 +109,46 @@
         </li>
     </ul>
 </aside>
-
+<aside class="lt_aside_nav content mCustomScrollbar">
+ <h2><a href="index.html">起始页</a></h2>
+ <ul>
+  <li>
+   <dl>
+    <dt>商品信息</dt>
+    <!--当前链接则添加class:active-->
+    <dd><a href="{% url 'admin:productlist' %}" class="active">商品列表</a></dd>
+    <dd><a href="{% url 'admin:productdetail' %}">添加商品</a></dd>
+    <dd><a href="{% url 'admin:recyclebin' %}">商品回收站</a></dd>
+   </dl>
+  </li>
+  <li>
+   <dl>
+    <dt>订单信息</dt>
+    <dd><a href="{% url 'admin:orderlist' %}">订单列表示例</a></dd>
+    <dd><a href="order_detail.html">订单详情示例</a></dd>
+   </dl>
+  </li>
+  <li>
+   <dl>
+    <dt>会员管理</dt>
+    <dd><a href="{% url 'admin:userlist' %}">会员列表</a></dd>
+    <dd><a href="{% url 'admin:userrank' %}">会员等级示例</a></dd>
+    <dd><a href="adjust_funding.html">会员资金管理示例</a></dd>
+   </dl>
+  </li>
+  <li>
+   <dl>
+    <dt>在线统计</dt>
+    <dd><a href="{% url 'admin:rankstatistic' %}">等级统计</a></dd>
+    <dd><a href="{% url 'admin:salesvolume' %}">销售额统计</a></dd>
+    <dd><a href="{% url 'admin:flowstatistics' %}">流量统计</a></dd>
+   </dl>
+  </li>
+  <li>
+   <p class="btm_infor">© DeathGhost.cn 版权所有</p>
+  </li>
+ </ul>
+</aside>
 <section class="rt_wrap content mCustomScrollbar">
     <div class="rt_content">
         <div class="page_title">
