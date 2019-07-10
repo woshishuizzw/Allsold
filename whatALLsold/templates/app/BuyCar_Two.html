@@ -78,7 +78,8 @@
     <div class="content mar_20">
     	<img src="{% static "app/images/img2.jpg" %}" />
     </div>
-    
+    <form action="{% url "app:buycartwo" %}" method="post">
+    {% csrf_token %}
     <!--Begin 第二步：确认订单信息 Begin -->
     <div class="content mar_20">
     	<div class="two_bg">
@@ -93,41 +94,19 @@
                 <td class="car_th" width="130">小计</td>
                 <td class="car_th" width="140">返还积分</td>
               </tr>
+              {% for shangpin in shopping %}
               <tr>
                 <td>
-                    <div class="c_s_img"><img src="images/c_1.jpg" width="73" height="73" /></div>
-                    Rio 锐澳 水蜜桃味白兰地鸡尾酒（预调酒） 275ml
+                    <input type="hidden" name="gid" value="{{ shangpin.goods.id }}">
+                    <div class="c_s_img"><img src="{{ shangpin.picture }}" width="73" height="73" /></div>
+                    {{ shangpin.goods.goodsname }}
                 </td>
-                <td align="center">颜色：灰色</td>
+                <td align="center">颜色：{{ shangpin.propertys.color }}</td>
                 <td align="center">1</td>
-                <td align="center" style="color:#ff4e00;">￥620.00</td>
+                <td align="center" style="color:#ff4e00;">￥{{ shangpin.price }}</td>
                 <td align="center">26R</td>
               </tr>
-              <tr class="car_tr">
-                <td>
-                    <div class="c_s_img"><img src="images/c_2.jpg" width="73" height="73" /></div>
-                    Rio 锐澳 水蜜桃味白兰地鸡尾酒（预调酒） 275ml
-                </td>
-                <td align="center">颜色：灰色</td>
-                <td align="center">1</td>
-                <td align="center" style="color:#ff4e00;">￥620.00</td>
-                <td align="center">26R</td>
-              </tr>
-              <tr>
-                <td>
-                    <div class="c_s_img"><img src="images/c_3.jpg" width="73" height="73" /></div>
-                    Rio 锐澳 水蜜桃味白兰地鸡尾酒（预调酒） 275ml
-                </td>
-                <td align="center">颜色：灰色</td>
-                <td align="center">1</td>
-                <td align="center" style="color:#ff4e00;">￥620.00</td>
-                <td align="center">26R</td>
-              </tr>
-              <tr>
-                <td colspan="5" align="right" style="font-family:'Microsoft YaHei';">
-                    商品总价：￥1899.00 ； 返还积分 56R  
-                </td>
-              </tr>
+              {% endfor %}
             </table>
             
             <div class="two_t">
@@ -216,10 +195,10 @@
                 </td>
               </tr>
               <tr height="70">
-                <td align="right"><a href="#"><img src="{% static "app/images/btn_sure.gif" %}" /></a></td>
+                <td align="right"><input type="submit" value="确认订单" style="background-color: #ff5244"></td>
               </tr>
             </table>
-
+            </form>
             
         	
         </div>
