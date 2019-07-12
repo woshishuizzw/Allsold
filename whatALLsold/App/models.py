@@ -187,6 +187,7 @@ class Order(models.Model):
     onumber = models.CharField(max_length=30, unique=True)  # 订单编号
     user = models.ForeignKey(to="User", on_delete=models.CASCADE, db_column="uid")# 下单人id  就是用户id
     getername = models.CharField(max_length=30)  # 收货人姓名
+    phone = models.CharField(max_length=11,null=True)
     province = models.CharField(max_length=10)  # 省
     city = models.CharField(max_length=10)  # 市
     area = models.CharField(max_length=10)  # 区
@@ -288,10 +289,18 @@ class Lookhistory(models.Model):
     class Meta:
         db_table = "lookhistory"
 
+<<<<<<< HEAD
 
+=======
+#
+>>>>>>> 454570cd3b6841bf3d16b8f7ae00b7bf34141f16
 class Flow(models.Model):
     ftime = models.CharField(max_length=20)
     view = models.IntegerField()
 
     class Meta:
+<<<<<<< HEAD
         db_table = "flow"
+=======
+        db_table = "flow"
+>>>>>>> 454570cd3b6841bf3d16b8f7ae00b7bf34141f16
