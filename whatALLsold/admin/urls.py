@@ -24,7 +24,10 @@ urlpatterns = [
     url(r'^expresslist$',views.expresslist,name='expresslist'),
     url(r'^paylist$',views.paylist,name='paylist'),
     url(r'^expressadd$',views.expressadd,name='expressadd'),
-    url(r'^salesvolume$',views.salesvolume,name='salesvolume'),
+
     url(r'^orderlist$',views.orderlist,name='orderlist'),
+    url(r'^orderlist/(?P<oid>\d+)$',views.orderlist,name='orderlist'),
+
+    url(r'^orderdetail/(?P<oid>\d+)$',views.orderdetail,name='orderdetail'),
     url(r'^flowstatictics$',views.flowstatistics,name='flowstatistics')
 ]

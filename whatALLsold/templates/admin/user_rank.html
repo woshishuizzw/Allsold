@@ -72,15 +72,15 @@
    <dl>
     <dt>会员管理</dt>
     <dd><a href="{% url 'admin:userlist' %}">会员列表</a></dd>
-    <dd><a href="{% url 'admin:userrank' %}">会员等级示例</a></dd>
-    <dd><a href="adjust_funding.html">会员资金管理示例</a></dd>
+    <dd><a href="{% url 'admin:userrank' %}">会员详情</a></dd>
+{#    <dd><a href="adjust_funding.html">会员资金管理示例</a></dd>#}
    </dl>
   </li>
   <li>
    <dl>
     <dt>在线统计</dt>
     <dd><a href="{% url 'admin:rankstatistic' %}">等级统计</a></dd>
-    <dd><a href="{% url 'admin:salesvolume' %}">销售额统计</a></dd>
+{#    <dd><a href="{% url 'admin:salesvolume' %}">销售额统计</a></dd>#}
     <dd><a href="{% url 'admin:flowstatistics' %}">流量统计</a></dd>
    </dl>
   </li>
@@ -140,74 +140,7 @@
         </td>
        </tr>
       </table>
-{#     <div id="container" style="min-width:400px;height:400px"></div>#}
-{#    <!-- 引入 highcharts.js -->#}
-{#    <script src="https://code.highcharts.com.cn/highcharts/highcharts.js"></script>#}
-{#        <script src="https://code.highcharts.com.cn/highcharts/modules/exporting.js"></script>#}
-{#        <script src="https://img.hcharts.cn/highcharts-plugins/highcharts-zh_CN.js"></script>#}
-{#    <script>#}
-{#        Highcharts.chart('container', {#}
-{#		chart: {#}
-{#				plotBackgroundColor: null,#}
-{#				plotBorderWidth: null,#}
-{#				plotShadow: false,#}
-{#				type: 'pie'#}
-{#		},#}
-{#		title: {#}
-{#				text: '2018年1月浏览器市场份额'#}
-{#		},#}
-{#		tooltip: {#}
-{#				pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'#}
-{#		},#}
-{#		plotOptions: {#}
-{#				pie: {#}
-{#						allowPointSelect: true,#}
-{#						cursor: 'pointer',#}
-{#						dataLabels: {#}
-{#								enabled: true,#}
-{#								format: '<b>{point.name}</b>: {point.percentage:.1f} %',#}
-{#								style: {#}
-{#										color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'#}
-{#								}#}
-{#						}#}
-{#				}#}
-{#		},#}
-{#		series: [{#}
-{#				name: 'Brands',#}
-{#				colorByPoint: true,#}
-{#				data: [{#}
-{#						name: 'Chrome',#}
-{#						y: 61.41,#}
-{#						sliced: true,#}
-{#						selected: true#}
-{#				}, {#}
-{#						name: 'Internet Explorer',#}
-{#						y: 11.84#}
-{#				}, {#}
-{#						name: 'Firefox',#}
-{#						y: 10.85#}
-{#				}, {#}
-{#						name: 'Edge',#}
-{#						y: 4.67#}
-{#				}, {#}
-{#						name: 'Safari',#}
-{#						y: 4.18#}
-{#				}, {#}
-{#						name: 'Sogou Explorer',#}
-{#						y: 1.64#}
-{#				}, {#}
-{#						name: 'Opera',#}
-{#						y: 1.6#}
-{#				}, {#}
-{#						name: 'QQ',#}
-{#						y: 1.2#}
-{#				}, {#}
-{#						name: 'Other',#}
-{#						y: 2.61#}
-{#				}]#}
-{#		}]#}
-{#{);#}
-{#    </script>#}
+
       <aside class="paging">
        <a>第一页</a>
        <a>1</a>

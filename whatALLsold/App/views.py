@@ -93,6 +93,7 @@ def sendone(request):
     content = "您的验证码为" + str(yzm)
     request.session["yzm"] = yzm
     email = request.POST.get("email")
+    print(email)
     send_mail('尤洪注册用户验证码', content, settings.EMAIL_FROM, [email], fail_silently=False)
     return JsonResponse({"yzm":yzm})
 

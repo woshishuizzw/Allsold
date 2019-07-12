@@ -1,15 +1,16 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8"/>
 <title>后台管理系统</title>
 <meta name="author" content="DeathGhost" />
-<link rel="stylesheet" type="text/css" href="css/style.css">
+<link rel="stylesheet" type="text/css" href="{% static 'admin/css/style.css'%}">
 <!--[if lt IE 9]>
 <script src="js/html5.js"></script>
 <![endif]-->
-<script src="js/jquery.js"></script>
-<script src="js/jquery.mCustomScrollbar.concat.min.js"></script>
+<script src="{%static 'admin/js/jquery.js'%}"></script>
+<script src="{%static 'admin/js/jquery.mCustomScrollbar.concat.min.js'%}"></script>
 <script>
 
 	(function($){
@@ -71,15 +72,15 @@
    <dl>
     <dt>会员管理</dt>
     <dd><a href="{% url 'admin:userlist' %}">会员列表</a></dd>
-    <dd><a href="{% url 'admin:userrank' %}">会员等级示例</a></dd>
-    <dd><a href="adjust_funding.html">会员资金管理示例</a></dd>
+    <dd><a href="{% url 'admin:userrank' %}">会员详情</a></dd>
+{#    <dd><a href="adjust_funding.html">会员资金管理示例</a></dd>#}
    </dl>
   </li>
   <li>
    <dl>
     <dt>在线统计</dt>
     <dd><a href="{% url 'admin:rankstatistic' %}">等级统计</a></dd>
-    <dd><a href="{% url 'admin:salesvolume' %}">销售额统计</a></dd>
+{#    <dd><a href="{% url 'admin:salesvolume' %}">销售额统计</a></dd>#}
     <dd><a href="{% url 'admin:flowstatistics' %}">流量统计</a></dd>
    </dl>
   </li>
@@ -96,16 +97,16 @@
       </div>
       <table class="table">
        <tr>
-        <td>收件人：DeathGhost</td>
-        <td>联系电话：18300000000</td>
-        <td>收件地址：陕西省西安市雁塔区丈八路2000集都市印象18栋2160室</td>
-        <td>付款时间：2016-02-01 13:56</td>
+        <td>收件人：{{ order.getername }}</td>
+        <td>联系电话：{{ order.lnumber }}</td>
+        <td>收件地址：{{ order.province }}{{ order.city }}{{ order.area }}{{ order.address }}</td>
+        <td>付款时间：{{ order.paytime }}</td>
        </tr>
        <tr>
-        <td>下单时间：2016-02-01 13:56</td>
-        <td>付款时间：2016-02-01 13:56</td>
-        <td>确认时间：2016-02-01 13:56</td>
-        <td>评价时间时间：---</td>
+        <td>下单时间：{{ order.ordertime}}</td>
+        <td>付款时间：{{ order.paytime }}</td>
+        <td>支付方式：支付宝</td>
+        <td>快递公司：申通快递</td>
        </tr>
        <tr>
         <td>订单状态：<a>已付款，待发货</a></td>
@@ -114,44 +115,20 @@
       </table>
       <table class="table">
        <tr>
-        <td class="center"><img src="upload/goods01.jpg" width="50" height="50"/></td>
-        <td>这里是产品名称</td>
-        <td class="center">A15902</td>
-        <td class="center"><strong class="rmb_icon">59.00</strong></td>
+        <td class="center"><img src="{{ picture.url }}" width="50" height="50"/></td>
+        <td>{{ good.goodsname }}</td>
+        <td class="center">{{ good.barcode }}</td>
+        <td class="center"><strong class="rmb_icon">单价：{{ order.unitprice }}</strong></td>
         <td class="center">
-         <p>颜色：蓝色</p>
-         <p>尺码：XXL码</p>
+         <p>积分：{{ order.grade }}分</p>
+
         </td>
         <td class="center"><strong>1</strong></td>
-        <td class="center"><strong class="rmb_icon">59.00</strong></td>
-        <td class="center">包</td>
+        <td class="center"><strong class="rmb_icon">总价：{{ order.money  }}</strong></td>
+        <td class="center">件</td>
        </tr>
-       <tr>
-        <td class="center"><img src="upload/goods02.jpg" width="50" height="50"/></td>
-        <td>这里是产品名称</td>
-        <td class="center">A15902</td>
-        <td class="center"><strong class="rmb_icon">59.00</strong></td>
-        <td class="center">
-         <p>颜色：蓝色</p>
-         <p>尺码：XXL码</p>
-        </td>
-        <td class="center"><strong>2</strong></td>
-        <td class="center"><strong class="rmb_icon">118.00</strong></td>
-        <td class="center">包</td>
-       </tr>
-       <tr>
-        <td class="center"><img src="upload/goods03.jpg" width="50" height="50"/></td>
-        <td>这里是产品名称</td>
-        <td class="center">A15902</td>
-        <td class="center"><strong class="rmb_icon">59.00</strong></td>
-        <td class="center">
-         <p>颜色：蓝色</p>
-         <p>尺码：XXL码</p>
-        </td>
-        <td class="center"><strong>1</strong></td>
-        <td class="center"><strong class="rmb_icon">59.00</strong></td>
-        <td class="center">包</td>
-       </tr>
+
+
       </table>
       <aside class="mtb" style="text-align:right;">
        <label>管理员操作：</label>

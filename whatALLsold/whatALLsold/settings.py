@@ -146,7 +146,7 @@ EMAIL_FROM = '尤洪<384333255@qq.com>'
 MEDIA_ROOT = 'static/app/images'
 
 #分页配置
-NUMOFPAGE = 2  #每页记录个数
+NUMOFPAGE = 4  #每页记录个数
 
 #阿里云短信验证码配置
 SMSCONFIG = {
@@ -155,3 +155,13 @@ SMSCONFIG = {
     'SignName':"尤洪电商",
     'TemplateCode':"SMS_169904768"
 }
+
+# CACHES = {
+#     "default": {
+#         "BACKEND": "django_redis.cache.RedisCache",
+#         "LOCATION": "redis://127.0.0.1:6379/1",
+#         "OPTIONS": {
+#            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+#         }
+#     }
+# }

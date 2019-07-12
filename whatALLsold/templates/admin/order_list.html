@@ -72,15 +72,15 @@
    <dl>
     <dt>会员管理</dt>
     <dd><a href="{% url 'admin:userlist' %}">会员列表</a></dd>
-    <dd><a href="{% url 'admin:userrank' %}">会员等级示例</a></dd>
-    <dd><a href="adjust_funding.html">会员资金管理示例</a></dd>
+    <dd><a href="{% url 'admin:userrank' %}">会员详情</a></dd>
+{#    <dd><a href="adjust_funding.html">会员资金管理示例</a></dd>#}
    </dl>
   </li>
   <li>
    <dl>
     <dt>在线统计</dt>
     <dd><a href="{% url 'admin:rankstatistic' %}">等级统计</a></dd>
-    <dd><a href="{% url 'admin:salesvolume' %}">销售额统计</a></dd>
+{#    <dd><a href="{% url 'admin:salesvolume' %}">销售额统计</a></dd>#}
     <dd><a href="{% url 'admin:flowstatistics' %}">流量统计</a></dd>
    </dl>
   </li>
@@ -94,7 +94,7 @@
  <div class="rt_content">
       <div class="page_title">
        <h2 class="fl">订单列表示例</h2>
-       <a class="fr top_rt_btn add_icon">添加商品</a>
+{#       <a class="fr top_rt_btn add_icon">添加商品</a>#}
       </div>
       <section class="mtb">
        <select class="select">
@@ -124,11 +124,11 @@
         <td>
          <address>{{ order.province }}{{ order.city }}{{ order.area }}{{ order.address }}</address>
         </td>
-        <td class="center"><strong class="rmb_icon">{{ orer.money }}</strong></td>
+        <td class="center"><strong class="rmb_icon">{{ order.money }}</strong></td>
         <td class="center">申通快递</td>
         <td class="center">
-         <a href="#" title="查看订单" class="link_icon" target="_blank">&#118;</a>
-         <a href="#" title="删除" class="link_icon">&#100;</a>
+         <a href="{% url 'admin:orderdetail' oid=order.id %}" title="查看订单" class="link_icon" target="_blank">&#118;</a>
+         <a href="{% url 'admin:orderlist' oid=order.id %}" title="删除" class="link_icon">&#100;</a>
         </td>
        </tr>
         {% endfor %}

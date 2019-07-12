@@ -5,7 +5,9 @@ from datetime import datetime
 from random import randint
 
 from django.core.paginator import Paginator
+import json
 from django.db import connection
+from django.db.models import Sum
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 
@@ -33,7 +35,8 @@ def login(request):
                 request.session['username']=res[0]['username']
                 request.session['uid'] =res[0]['id']
                 print(request.session['username'])
-                return redirect(reverse('admin:index'))
+                return redirect(reverse('admin:userlist'))
+        return render(request, 'admin/login1.html')
 
     return render(request,'admin/login1.html')
 
@@ -126,8 +129,13 @@ def productlist(request):
     if request.method=='POST':
         categoryid = request.POST.get('category') #三级分类id
         print('$'*90)
-        print(categoryid)
-        goodslist = Goods.objects.filter(upstatus=0,threeclassid=categoryid).all()  # 商品查询结果集
+        print(categoryid,type(categoryid))
+        if  categoryid != '0' :
+            goodslist = Goods.objects.filter(upstatus=0,threeclassid=categoryid).all()  # 商品查询结果集
+        else:
+            goodslist = Goods.objects.filter(upstatus=0).all()  # 商品查询结果集
+            print(goodslist)
+
     else:
         goodslist = Goods.objects.filter(upstatus=0).all()  # 商品查询结果集
 
@@ -202,7 +210,7 @@ def userdetail(request,uid): #uid是用户的id
 
             user.username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
-            # user.password = hashlib.sha1(password.encode('utf8')).hexdigest()
+            password = hashlib.sha1(password.encode('utf8')).hexdigest()
             user.password=password
             user.ugrade = form.cleaned_data.get('ugrade')
             user.email = form.cleaned_data.get('email')
@@ -229,17 +237,35 @@ def dictfetchall(cursor):
     dict(zip([col[0] for col in desc], row))
     for row in cursor.fetchall()
     ]
-
+@csrf_exempt
 def userlist(request,page=1):
-    # users = User.objects.all()
-    # print(users)
+    levellist = Userlevel.objects.all()
+    request.session['a']='sdas'
     cursor = connection.cursor()
-    cursor.execute("select * from user u join userlevel l on u.ugrade between l.mingrade and maxgrade where u.usertype=0")
-    #转成查询结果集
+    cursor.execute(
+        "select * from  userlevel l join user u on u.ugrade between l.mingrade and maxgrade where u.usertype=0 ")
+    # 转成查询结果集
     dict = dictfetchall(cursor)
-    print(dict)
-    #创建分页器
-    paginator = Paginator(dict,NUMOFPAGE)
+    if request.method=='POST':
+        levelname = request.POST.get('userlevel')
+        find = request.POST.get('find')
+        levellist = Userlevel.objects.all()
+        cursor = connection.cursor()
+        cursor.execute(
+            "select * from  userlevel l join user u on u.ugrade between l.mingrade and maxgrade where u.usertype=0 ")
+        # 转成查询结果集
+        dict = dictfetchall(cursor)
+        dict1=[]
+        for obj in dict:
+            if obj['levelname']==levelname:
+                dict1.append(obj)
+                # 创建分页器
+                paginator = Paginator(dict1, NUMOFPAGE)
+
+
+    else:
+        #创建分页器
+        paginator = Paginator(dict,NUMOFPAGE)
     #创建分页对象
     page = int(page)
     pagination = paginator.page(page)
@@ -254,14 +280,11 @@ def userlist(request,page=1):
             customRange = range(page-5,page+5)
     else:  # 页码总数小于10
         customRange = paginator.page_range
-
-    # rows = cursor.fetchall()
-    # print(rows)
-
     return render(request,'admin/user_list.html',context={
         'data': pagination.object_list,
         'pagerange': customRange,
-        'pagination': pagination
+        'pagination': pagination,
+        'levellist':levellist
     })
 
 
@@ -399,11 +422,21 @@ def restore(request,gid):
     restoreobj.upstatus=0
     restoreobj.save()
     return redirect(reverse('admin:productlist'))
-def salesvolume(request):
-    return render(request,'admin/sales_volume.html')
+# def salesvolume(request):
+#     orderlist1 = Order.objects.all()
+#     for order in orderlist1:
+#         longtime =str(order.ordertime)
+#         shorttime = longtime.split(' ')[0]
+#         print(shorttime)
+#         order.shorttime = shorttime
+#     res = Order.objects.values('user_id').annotate(Sum('money'))
+#     print(res)
+#     return render(request,'admin/sales_volume.html')
 
-
-def orderlist(request):
+def orderlist(request,oid=0):
+    if oid:
+        order = Order.objects.get(pk=oid)
+        order.delete()
     orders = Order.objects.all()
     return render(request,'admin/order_list.html',context={
         'orders':orders
@@ -413,8 +446,11 @@ def getcode(request):
     if request.method == 'POST':
         num = randint(100000,999999)
         print(num)
-        request.session['smscode'] = str(num)
         phone = request.POST.get('phone')
+        print('*' * 100)
+        request.session['smscode'] = str(num)
+
+        print(phone)
         send_sms(phone,{'code':str(num)},**SMSCONFIG)
         return JsonResponse({'code':1,'msg':'ok'})
 def flowstatistics(request):
@@ -423,4 +459,13 @@ def flowstatistics(request):
     viewlist = [flow.view for flow in flows]
     return render(request,'admin/flowstatistics.html',context={
         'datelist':datelist,'viewlist':viewlist
+    })
+
+
+def orderdetail(request,oid):
+    order = Order.objects.get(pk=oid)
+    good = order.goods
+    picture = good.picture_set.all().filter(main=0).first()
+    return render(request,'admin/order_detail.html',context={
+        'order':order,'good':good,'picture':picture
     })

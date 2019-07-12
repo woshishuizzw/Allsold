@@ -11,7 +11,7 @@ class User(models.Model):
     phone = models.CharField(max_length=11, null=True)
     sex = models.BooleanField(default=True) # 1表示女0表示男
     ugrade = models.IntegerField(default=0) # 用户积分
-    regtime = models.DateTimeField(auto_now_add=True)
+    # regtime = models.DateTimeField(auto_now_add=True)
     brithday = models.CharField(max_length=12, null=True)
     balance = models.FloatField(default=0) # 用户余额
     usertype = models.BooleanField(default=False)# 0 普通 1 管理员

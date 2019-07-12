@@ -2,18 +2,19 @@
 <!DOCTYPE html>
 <html>
 <head>
- <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
 <title>后台管理系统</title>
 <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
 <meta name="author" content="DeathGhost" />
 <link rel="stylesheet" type="text/css" href="{% static 'admin/css/style.css'%}">
 <!--[if lt IE 9]>
 <script src="js/html5.js"></script>
 <![endif]-->
+<script src="{% static 'admin/js/jquery-1.11.1.min_044d0927.js' %}"></script>
 <script src="{%static 'admin/js/jquery.js'%}"></script>
 <script src="{%static 'admin/js/jquery.mCustomScrollbar.concat.min.js'%}"></script>
 <script>
@@ -77,15 +78,15 @@
    <dl>
     <dt>会员管理</dt>
     <dd><a href="{% url 'admin:userlist' %}">会员列表</a></dd>
-    <dd><a href="{% url 'admin:userrank' %}">会员等级示例</a></dd>
-    <dd><a href="adjust_funding.html">会员资金管理示例</a></dd>
+    <dd><a href="{% url 'admin:userrank' %}">会员详情</a></dd>
+{#    <dd><a href="adjust_funding.html">会员资金管理示例</a></dd>#}
    </dl>
   </li>
   <li>
    <dl>
     <dt>在线统计</dt>
     <dd><a href="{% url 'admin:rankstatistic' %}">等级统计</a></dd>
-    <dd><a href="{% url 'admin:salesvolume' %}">销售额统计</a></dd>
+{#    <dd><a href="{% url 'admin:salesvolume' %}">销售额统计</a></dd>#}
     <dd><a href="{% url 'admin:flowstatistics' %}">流量统计</a></dd>
    </dl>
   </li>
@@ -99,16 +100,19 @@
  <div class="rt_content">
       <div class="page_title">
        <h2 class="fl">会员列表</h2>
-{#       <a href="{% url 'admin:' %}" class="fr top_rt_btn add_icon">添加新会员</a>#}
+
       </div>
       <section class="mtb">
-       <select class="select">
+      <form action="{% url 'admin:userlist' %}" method="post">
+       <select class="select" id="grade" name="userlevel">
         <option>会员等级</option>
-        <option>普通会员</option>
-        <option>高级会员</option>
+        {% for level in levellist %}
+            <option name="{{ level.levelname }}" id="{{ level.levelname }}">{{ level.levelname }}</option>
+        {% endfor %}
        </select>
-       <input type="text" class="textbox textbox_225" placeholder="输入会员号/手机/电子邮件查询..."/>
-       <input type="button" value="查询" class="group_btn"/>
+{#       <input type="text" class="textbox textbox_225" placeholder="输入会员号/手机/电子邮件查询..." name="find"/>#}
+       <input type="submit" value="查找" class="group_btn"/>
+      </form>
       </section>
       <table class="table">
        <tr>
@@ -139,16 +143,7 @@
        </tr>
           {% endfor %}
       </table>
-{#      <aside class="paging">#}
-{#       <a>第一页</a>#}
-{#       <a>1</a>#}
-{#       <a>2</a>#}
-{#       <a>3</a>#}
-{#       <a>…</a>#}
-{#       <a>1004</a>#}
-{#       <a>最后一页</a>#}
-{#      </aside>#}
-        {#        分页#}
+
         <div class="row">
             <nav aria-label="Page navigation">
               <ul class="pagination">
@@ -201,3 +196,25 @@
 </section>
 </body>
 </html>
+{#<script>#}
+{#    $('select').change(function(ev){#}
+{#        ev.preventDefault()#}
+{#        获得选中的id值#}
+{#        var x = $('select option:selected').attr('id');#}
+{#        console.log(x)#}
+{#        $.post('{% url 'admin:userlist' %}',{'lid':x})#}
+{#        alert(x.attr('id'));#}
+{#        $.ajax({#}
+{#            url:"{% url 'admin:userlist' %}",#}
+{#            type:"post",#}
+{#            data:{'lid':x},#}
+{#            contentType: false,#}
+{#            processData: false,#}
+{#            success:function (res) {#}
+{#              console.log(res)#}
+{##}
+{#            }#}
+{##}
+{#        })#}
+{#    });#}
+{#</script>#}
