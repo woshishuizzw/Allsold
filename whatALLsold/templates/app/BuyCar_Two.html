@@ -60,14 +60,14 @@
                 </div>
                 <!--End 商品分类详情 End-->
                 <ul class="menu_r">
-                    <li><a href="Index.html">首页</a></li>
-                    <li><a href="Food.html">美食</a></li>
-                    <li><a href="Fresh.html">生鲜</a></li>
-                    <li><a href="HomeDecoration.html">家居</a></li>
-                    <li><a href="SuitDress.html">女装</a></li>
-                    <li><a href="MakeUp.html">美妆</a></li>
-                    <li><a href="Digital.html">数码</a></li>
-                    <li><a href="GroupBuying.html">团购</a></li>
+                <li><a href="{% url "app:index" %}">首页</a></li>
+                    <li><a href="#">美食</a></li>
+                    <li><a href="#">生鲜</a></li>
+                    <li><a href="#">家居</a></li>
+                    <li><a href="#">女装</a></li>
+                    <li><a href="#">美妆</a></li>
+                    <li><a href="#">数码</a></li>
+                    <li><a href="#">团购</a></li>
                 </ul>
             </div>
         </div>
@@ -97,48 +97,60 @@
               {% for shangpin in shopping %}
               <tr>
                 <td>
-                    <input type="hidden" name="gid" value="{{ shangpin.goods.id }}">
+                    <input type="hidden" name="gid" value="{{ shangpin.id }}">
                     <div class="c_s_img"><img src="{{ shangpin.picture }}" width="73" height="73" /></div>
                     {{ shangpin.goods.goodsname }}
                 </td>
                 <td align="center">颜色：{{ shangpin.propertys.color }}</td>
-                <td align="center">1</td>
-                <td align="center" style="color:#ff4e00;">￥{{ shangpin.price }}</td>
+                <td align="center">{{ shangpin.count }}</td>
+                <td align="center" style="color:#ff4e00;">￥{{ shangpin.singalsum }}</td>
                 <td align="center">26R</td>
               </tr>
               {% endfor %}
             </table>
-            
+            {% if defaultaddr %}
             <div class="two_t">
             	<span class="fr"><a href="#">修改</a></span>收货人信息
             </div>
             <table border="0" class="peo_tab" style="width:1110px;" cellspacing="0" cellpadding="0">
               <tr>
-                <td class="p_td" width="160">商品名称</td>
-                <td width="395">海贼王</td>
+                  <input type="hidden", name="getername", value="海贼王">
+                <td class="p_td" width="160">收货人姓名</td>
+                <td width="395">{{ defaultaddr.consignee }}</td>
                 <td class="p_td" width="160">电子邮件</td>
-                <td width="395">12345678@qq.com</td>
+                <td width="395">{{ defaultaddr.email }}</td>
               </tr>
               <tr>
-                <td class="p_td">详细信息</td>
-                <td>四川省成都市武侯区</td>
+                                    <input type="hidden" name="phone" value="18600002222">
+                  <td class="p_td">手机</td>
+                <td>{{ defaultaddr.phone }}</td>
+
                 <td class="p_td">邮政编码</td>
-                <td>6011111</td>
+                <td>{{ defaultaddr.postcode }}</td>
               </tr>
               <tr>
-                <td class="p_td">电话</td>
-                <td></td>
-                <td class="p_td">手机</td>
-                <td>18600002222</td>
+                  <input type="hidden" name="province" value="四川省">
+                  <td class="p_td">省</td>
+                <td>{{ defaultaddr.province }}</td>
+                    <input type="hidden" name="city" value="成都市">
+                <td class="p_td">市</td>
+                <td>{{ defaultaddr.city }}</td>
+
               </tr>
               <tr>
-                <td class="p_td">标志建筑</td>
-                <td></td>
-                <td class="p_td">最佳送货时间</td>
-                <td></td>
+                  <input type="hidden" name="area" value="武侯区">
+                <td class="p_td">区</td>
+                <td>{{ defaultaddr.district }}</td>
+                  <input type="hidden" name="address" value="四川省成都市武侯区">
+                <td class="p_td">详细地址</td>
+                <td>{{ defaultaddr.address }}</td>
               </tr>
             </table>
-
+             {% else %}
+                <div>
+                <p align="center" style="font-size: 30px">请设置默认收货地址 <a href="{% url "app:memberaddress" %}" style="font-size: 20px; color: #ff6600">我的地址</a></p>
+                </div>
+            {% endif %}
             
             <div class="two_t">
             	配送方式
@@ -153,10 +165,10 @@
                 <td class="car_th" width="175">保价费用</td>
               </tr>
               <tr>
-              	<td align="center"><input type="checkbox" name="ch" checked="checked" /></td>
+              	<td align="center"><input type="checkbox"  checked="checked" /></td>
                 <td align="center" style="font-size:14px;"><b>申通快递</b></td>
                 <td>运费固定</td>
-                <td align="center">￥15.00</td>
+                <td align="center">￥0.00</td>
                 <td align="center">￥0.00</td>
                 <td align="center">不支持保价</td>
               </tr>
@@ -166,10 +178,8 @@
             	支付方式
             </div>
             <ul class="pay">
-                <li class="checked">余额支付<div class="ch_img"></div></li>
-                <li>银行亏款/转账<div class="ch_img"></div></li>
-                <li>货到付款<div class="ch_img"></div></li>
-                <li>支付宝<div class="ch_img"></div></li>
+                <li class="checked">支付宝<div class="ch_img"></div></li>
+
             </ul>
             
             <div class="two_t">
@@ -185,15 +195,16 @@
             <table border="0" style="width:900px; margin-top:20px;" cellspacing="0" cellpadding="0">
               <tr>
                 <td align="right">
-                	该订单完成后，您将获得 <font color="#ff4e00">1815</font> 积分 ，以及价值 <font color="#ff4e00">￥0.00</font> 的红包 <br />
-                    商品总价: <font color="#ff4e00">￥1815.00</font>  + 配送费用: <font color="#ff4e00">￥15.00</font>
+
+                    商品总价: <font color="#ff4e00">￥{{ sum }}</font>  + 配送费用: <font color="#ff4e00">￥0.00</font>
                 </td>
               </tr>
               <tr height="70">
                 <td align="right">
-                	<b style="font-size:14px;">应付款金额：<span style="font-size:22px; color:#ff4e00;">￥2899</span></b>
+                	<b style="font-size:14px;">应付款金额：<span style="font-size:22px; color:#ff4e00;">￥{{ sum }}</span></b>
                 </td>
               </tr>
+
               <tr height="70">
                 <td align="right"><input type="submit" value="确认订单" style="background-color: #ff5244"></td>
               </tr>

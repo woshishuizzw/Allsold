@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.db import models
 
 
@@ -11,7 +13,7 @@ class User(models.Model):
     phone = models.CharField(max_length=11, null=True)
     sex = models.BooleanField(default=True) # 1表示女0表示男
     ugrade = models.IntegerField(default=0) # 用户积分
-    regtime = models.DateTimeField(auto_now_add=True)
+    # regtime = models.CharField(max_length=100, null=True)
     brithday = models.CharField(max_length=12, null=True)
     balance = models.FloatField(default=0) # 用户余额
     usertype = models.BooleanField(default=False)# 0 普通 1 管理员
@@ -125,7 +127,6 @@ class Goods(models.Model):
     producttime = models.CharField(max_length=30) # 生产日期
     validity = models.CharField(max_length=5) # 有效期
     describe = models.CharField(max_length=200, null=True) # 商品描述
-    lookcount = models.IntegerField(default=0)
     brand = models.ForeignKey(to="Brand", on_delete=models.CASCADE, db_column="bid")# 品牌id
     lookcount = models.IntegerField(default=0) # 浏览次数
 
@@ -189,7 +190,7 @@ class Order(models.Model):
     province = models.CharField(max_length=10)  # 省
     city = models.CharField(max_length=10)  # 市
     area = models.CharField(max_length=10)  # 区
-    address = models.CharField(max_length=50)  # 仓库详细地址
+    address = models.CharField(max_length=50)  # 详细地址
     phone = models.CharField(max_length=11, null=True) # 收货人电话
     paymothod = models.IntegerField(default=1)  # 支付方式  1--余额  2--网银 2--支付宝  4--微信
     money = models.FloatField()  # 订单金额
@@ -198,13 +199,13 @@ class Order(models.Model):
     ordertime = models.DateTimeField(auto_now_add=True)  # 下单时间
     delivertime = models.DateTimeField(null=True)  # 发货时间
     paytime = models.DateTimeField(null=True)  # 支付时间
-    orderstatus = models.IntegerField()  # 1--待付款  2--待收货  3--已完成  4--已取消 5-待评论
+    orderstatus = models.IntegerField(default=2)  # 1--待付款  2--待收货  3--已完成  4--已取消 5-待评论
     grade = models.IntegerField(default=5)  # 订单积分  默认一单五分
     count = models.IntegerField(default=1)  # 购买商品数量
     unitprice = models.FloatField(null=True)  # 购买商品单价
     weight = models.FloatField(default=0)  # 商品重量
     wid = models.IntegerField(default=1)  # 仓库id
-    goods = models.OneToOneField(to="Goods", db_column="gid", null=True)  # 订单商品id
+    goods = models.ForeignKey(to="Goods", db_column="gid",on_delete=models.CASCADE, null=True)  # 订单商品id
     class Meta:
         db_table = 'order'
 
@@ -286,3 +287,11 @@ class Lookhistory(models.Model):
 
     class Meta:
         db_table = "lookhistory"
+
+
+class Flow(models.Model):
+    ftime = models.CharField(max_length=20)
+    view = models.IntegerField()
+
+    class Meta:
+        db_table = "flow"

@@ -29,10 +29,10 @@
                 <span class="fr">
                     {% if request.session.username %}
 
-                    <span class="fl">你好，<a href="{% url "app:member" %}">{{ request.session.username }}</a>&nbsp; <a href="{% url "app:register" %}" style="color:#ff4e00;">免费注册</a>&nbsp;|&nbsp;<a href="{% url "app:index" %}">&nbsp;首页&nbsp;</a>&nbsp;|&nbsp;<a href="{% url "app:member" %}"> &nbsp;个人中心&nbsp; </a>|&nbsp;<a href="#">&nbsp;我的订单&nbsp;</a>&nbsp;|</span>
+                    <span class="fl">你好，<a href="{% url "app:member" %}">{{ request.session.username }}</a>&nbsp; <a href="{% url "app:register" %}" style="color:#ff4e00;">免费注册</a>&nbsp;|&nbsp;<a href="{% url "app:index" %}">&nbsp;首页&nbsp;</a>&nbsp;|&nbsp;<a href="{% url "app:member" %}"> &nbsp;个人中心&nbsp; </a>|&nbsp;<a href="{% url 'app:memberorder' %}">&nbsp;我的订单&nbsp;</a>&nbsp;|</span>
                     <span class="ss">
                         <div class="ss_list">
-                            <a href="#">收藏夹</a> &nbsp;|&nbsp;<a href="{% url "app:logout" %}">退出</a>
+                            <a href="{% url 'app:membercollect' %}">收藏夹</a> &nbsp;|&nbsp;<a href="{% url "app:logout" %}">退出</a>
                         </div>
                     </span>
 
@@ -54,9 +54,9 @@
         </div>
         <div class="i_car">
             {% if not request.session.username %}
-                <div class="car_t">购物车 [ <span>0</span> ]</div>
+                <div class="car_t">购物车 </div>
             {% else %}
-                <div class="car_t">购物车 [ <span>3</span> ]</div>
+                <div class="car_t">购物车 </div>
             {% endif %}
                 <div class="car_bg">
                 {% if not request.session.username %}
@@ -106,23 +106,7 @@
 {#                    <li><a href="#">我的评论</a></li>#}
                 </ul>
             </div>
-            <div class="left_m">
-                <div class="left_m_t t_bg3">账户中心</div>
-                <ul>
-                    <li><a href="{% url "app:membersafe" %}">账户安全</a></li>
-                    <li><a href="Member_Packet.html">我的红包</a></li>
-                    <li><a href="Member_Money.html">资金管理</a></li>
-                </ul>
-            </div>
-            <div class="left_m">
-                <div class="left_m_t t_bg4">分销中心</div>
-                <ul>
-                    <li><a href="Member_Member.html">我的会员</a></li>
-                    <li><a href="Member_Results.html">我的业绩</a></li>
-                    <li><a href="Member_Commission.html">我的佣金</a></li>
-                    <li><a href="Member_Cash.html">申请提现</a></li>
-                </ul>
-            </div>
+
         </div>
     {% block content %}
 

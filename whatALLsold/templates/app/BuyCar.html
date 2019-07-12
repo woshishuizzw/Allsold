@@ -3,6 +3,7 @@
 {% block js %}
     
     <script type="text/javascript" src="{% static "app/js/jquery-1.8.2.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "app/js/jquery-1.8.2.min.js" %}"></script>
     <script type="text/javascript" src="{% static "app/js/menu.js" %}"></script>
                 
 	<script type="text/javascript" src="{% static "app/js/n_nav.js" %}"></script>
@@ -12,6 +13,15 @@
     </script>     
     
     <script type="text/javascript" src="{% static "app/js/shade.js" %}"></script>
+    <script>
+    function Delshopping(obj) {
+        jQuery(obj).ready(function (obj) {
+            var id=jQuery(".dodelete").attr("name");
+            console.log(id)
+        })
+    }
+    </script>
+    
 {% endblock js %}
 {% block title %}购物车{% endblock title %}
 
@@ -57,14 +67,14 @@
                 </div>
                 <!--End 商品分类详情 End-->
                 <ul class="menu_r">
-                    <li><a href="Index.html">首页</a></li>
-                    <li><a href="Food.html">美食</a></li>
-                    <li><a href="Fresh.html">生鲜</a></li>
-                    <li><a href="HomeDecoration.html">家居</a></li>
-                    <li><a href="SuitDress.html">女装</a></li>
-                    <li><a href="MakeUp.html">美妆</a></li>
-                    <li><a href="Digital.html">数码</a></li>
-                    <li><a href="GroupBuying.html">团购</a></li>
+           <li><a href="{% url "app:index" %}">首页</a></li>
+                    <li><a href="#">美食</a></li>
+                    <li><a href="#">生鲜</a></li>
+                    <li><a href="#">家居</a></li>
+                    <li><a href="#">女装</a></li>
+                    <li><a href="#">美妆</a></li>
+                    <li><a href="#">数码</a></li>
+                    <li><a href="#">团购</a></li>
                 </ul>
             </div>
         </div>
@@ -86,7 +96,10 @@
             <td class="car_th" width="140">返还积分</td>
             <td class="car_th" width="150">操作</td>
           </tr>
+
           {% for shangpin in shopping %}
+               <form action="{% url "app:buycarone" %}" method="post">
+            {% csrf_token %}
           <tr>
             <td>
             	<div class="c_s_img"><img src="{{ shangpin.picture }}" width="73" height="73" /></div>
@@ -95,16 +108,19 @@
             <td align="center">颜色：{{ shangpin.propertys.color }}</td>
             <td align="center">
             	<div class="c_num">
+                    <input type="hidden" class="shoppingid", name="shoppingid" value="{{ shangpin.id }}">
                     <input type="button" value="" onclick="jianUpdate1(jq(this));" class="car_btn_1" />
-                	<input type="text" value="1" name="" class="car_ipt" />  
+                	<input type="text" value="{{ shangpin.count }}" name="" class="car_ipt" />
                     <input type="button" value="" onclick="addUpdate1(jq(this));" class="car_btn_2" />
                 </div>
             </td>
-            <td align="center" style="color:#ff4e00;">￥{{ shangpin.price }}</td>
+            <td align="center" style="color:#ff4e00;">￥{{ shangpin.singalsum }}</td>
             <td align="center">26R</td>
-            <td align="center"><a onclick="ShowDiv('MyDiv','fade')">删除</a>&nbsp; &nbsp;<a href="#">加入收藏</a></td>
+            <td align="center"><a -onclick="ShowDiv('MyDiv','fade'), Delshopping(this)"><input type="submit"  value="删除" style="background-color: #ff6600"></a>&nbsp;</td>
           </tr>
+              </form>
           {% endfor %}
+
 {#          <tr class="car_tr">#}
 {#            <td>#}
 {#            	<div class="c_s_img"><img src="images/c_2.jpg" width="73" height="73" /></div>#}
@@ -158,13 +174,13 @@
 {#          </tr>#}
           <tr height="70">
           	<td colspan="6" style="font-family:'Microsoft YaHei'; border-bottom:0;">
-            	<label class="r_rad"><input type="checkbox" name="clear" checked="checked" /></label><label class="r_txt">清空购物车</label>
-                <span class="fr">商品总价：<b style="font-size:22px; color:#ff4e00;">￥2899</b></span>
+
+                <span class="fr">商品总价：<b style="font-size:22px; color:#ff4e00;">￥{{ sum }}</b></span>
             </td>
           </tr>
           <tr valign="top" height="150">
           	<td colspan="6" align="right">
-            	<a href="#"><img src="{% static "app/images/buy1.gif" %}" /></a>&nbsp; &nbsp; <a href="{% url "app:buycartwo" %}"><img src="{% static "app/images/buy2.gif" %}" /></a>
+            	<a href="{% url "app:index" %}"><img src="{% static "app/images/buy1.gif" %}" /></a>&nbsp; &nbsp; <a href="{% url "app:buycartwo" %}"><img src="{% static "app/images/buy2.gif" %}" /></a>
             </td>
           </tr>
         </table>
@@ -187,7 +203,7 @@
                     <td>您确定要把该商品移除购物车吗？</td>
                   </tr>
                   <tr height="50" valign="bottom">
-                    <td><a href="#" class="b_sure">确定</a><a href="#" class="b_buy">取消</a></td>
+                    <td><a href="#" class="b_sure">确定</a><a href="#" class="b_buy" onclick="CloseDiv('MyDiv','fade')">取消</a></td>
                   </tr>
                 </table>
                     

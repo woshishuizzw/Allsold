@@ -12,7 +12,7 @@ urlpatterns = [
     url(r"^memberaddress/$", views.memberaddress, name="memberaddress"),
     url(r"^memberorder/$", views.memberorder, name="memberorder"),
     url(r"^membercollect/$", views.membercollect, name="membercollect"),
-    url(r"^membersafe/$", views.membersafe, name="membersafe"),
+
     url(r"^getpassword/$", views.getpassword, name="getpassword"),
     url(r"^categorylist/(?P<threeid>\d+)/$", views.categorylist, name="categorylist"),
     url(r"^categorylist/(?P<threeid>\d+)/(?P<brandid>\d+)/$", views.categorylist, name="categorylist"),

@@ -208,11 +208,11 @@
                     {% for goods in goodsset %}
                         {% if goods.oneclassid == one.id %}
                                     <li>
-                                        <div class="name"><a href="#">{{ goods.goodsname }}</a></div>
+                                        <div class="name"><a href="{% url "app:product" gid=goods.id %}">{{ goods.goodsname }}</a></div>
                                         <div class="price">
                                             <font>￥<span>{{ goods.price }}</span></font> &nbsp;
                                         </div>
-                                        <div class="img"><a href="#"><img src="{{ goods.picture }}" width="185"
+                                        <div class="img"><a href="{% url "app:product" gid=goods.id %}"><img src="{{ goods.picture }}" width="185"
                                                                           height="155"/></a></div>
                                     </li>
                         {% endif  %}
@@ -256,8 +256,8 @@
             </div>
             <div class="fresh_right">
                 <ul>
-                    <li><a href="#"><img src="static/app/images/fre_b1.jpg" width="260" height="220"/></a></li>
-                    <li><a href="#"><img src="static/app/images/fre_b2.jpg" width="260" height="220"/></a></li>
+                    <li><a href="#"><img src="/static/app/images/fre_b1.jpg" width="260" height="220"/></a></li>
+                    <li><a href="#"><img src="/static/app/images/fre_b2.jpg" width="260" height="220"/></a></li>
                 </ul>
             </div>
         </div>
@@ -277,7 +277,7 @@
                             <li class="featureBox">
                                 <div class="box">
                                     <div class="imgbg">
-                                        <a href="#"><img src="static/app/images/hot1.jpg" width="160" height="136"/></a>
+                                        <a href="#"><img src="/static/app/images/hot1.jpg" width="160" height="136"/></a>
                                     </div>
                                     <div class="name">
                                         <a href="#">
@@ -293,7 +293,7 @@
                             <li class="featureBox">
                                 <div class="box">
                                     <div class="imgbg">
-                                        <a href="#"><img src="static/app/images/hot2.jpg" width="160" height="136"/></a>
+                                        <a href="#"><img src="/static/app/images/hot2.jpg" width="160" height="136"/></a>
                                     </div>
                                     <div class="name">
                                         <a href="#">
@@ -309,7 +309,7 @@
                             <li class="featureBox">
                                 <div class="box">
                                     <div class="imgbg">
-                                        <a href="#"><img src="static/app/images/hot3.jpg" width="160" height="136"/></a>
+                                        <a href="#"><img src="/static/app/images/hot3.jpg" width="160" height="136"/></a>
                                     </div>
                                     <div class="name">
                                         <a href="#">
@@ -325,7 +325,7 @@
                             <li class="featureBox">
                                 <div class="box">
                                     <div class="imgbg">
-                                        <a href="#"><img src="static/app/images/hot4.jpg" width="160" height="136"/></a>
+                                        <a href="#"><img src="/static/app/images/hot4.jpg" width="160" height="136"/></a>
                                     </div>
                                     <div class="name">
                                         <a href="#">
@@ -341,7 +341,7 @@
                             <li class="featureBox">
                                 <div class="box">
                                     <div class="imgbg">
-                                        <a href="#"><img src="static/app/images/hot4.jpg" width="160" height="136"/></a>
+                                        <a href="#"><img src="/static/app/images/hot4.jpg" width="160" height="136"/></a>
                                     </div>
                                     <div class="name">
                                         <a href="#">
