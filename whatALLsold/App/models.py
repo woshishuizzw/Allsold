@@ -289,18 +289,12 @@ class Lookhistory(models.Model):
     class Meta:
         db_table = "lookhistory"
 
-<<<<<<< HEAD
 
-=======
-#
->>>>>>> 454570cd3b6841bf3d16b8f7ae00b7bf34141f16
+
 class Flow(models.Model):
     ftime = models.CharField(max_length=20)
     view = models.IntegerField()
 
     class Meta:
-<<<<<<< HEAD
         db_table = "flow"
-=======
-        db_table = "flow"
->>>>>>> 454570cd3b6841bf3d16b8f7ae00b7bf34141f16
+
