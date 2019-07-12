@@ -41,10 +41,10 @@
                 <span class="fr">
                     {% if request.session.username %}
 
-                    <span class="fl">你好，<a href="{% url "app:member" %}">{{ request.session.username }}</a>&nbsp; <a href="{% url "app:register" %}" style="color:#ff4e00;">免费注册</a>&nbsp;|&nbsp;<a href="{% url "app:index" %}">&nbsp;首页&nbsp;</a>&nbsp;|&nbsp;<a href="{% url "app:member" %}"> &nbsp;个人中心&nbsp; </a>|&nbsp;<a href="#">&nbsp;我的订单&nbsp;</a>&nbsp;|</span>
+                    <span class="fl">你好，<a href="{% url "app:member" %}">{{ request.session.username }}</a>&nbsp; <a href="{% url "app:register" %}" style="color:#ff4e00;">免费注册</a>&nbsp;|&nbsp;<a href="{% url "app:index" %}">&nbsp;首页&nbsp;</a>&nbsp;|&nbsp;<a href="{% url "app:member" %}"> &nbsp;个人中心&nbsp; </a>|&nbsp;<a href="{% url 'app:memberorder' %}">&nbsp;我的订单&nbsp;</a>&nbsp;|</span>
                     <span class="ss">
                         <div class="ss_list">
-                            <a href="#">收藏夹</a> &nbsp;|&nbsp;<a href="{% url "app:logout" %}">退出</a>
+                            <a href="{% url 'app:membercollect' %}">收藏夹</a> &nbsp;|&nbsp;<a href="{% url "app:logout" %}">退出</a>
                         </div>
                     </span>
 
@@ -64,9 +64,9 @@
             </div>
             <div class="i_car">
             {% if not request.session.username %}
-                <div class="car_t">购物车 [ <span>0</span> ]</div>
+                <div class="car_t">购物车 </div>
             {% else %}
-                <div class="car_t">购物车 [ <span>3</span> ]</div>
+                <div class="car_t">购物车 </div>
             {% endif %}
                 <div class="car_bg">
                 {% if not request.session.username %}
@@ -84,7 +84,7 @@
                         </li>
                     {% endfor %}
                     </ul>
-                    <div class="price_sum">共计&nbsp; <font color="#ff4e00">￥</font><span>1058</span></div>
+                    <div class="price_sum">共计&nbsp; <font color="#ff4e00">￥</font><span>{{ sum }}</span></div>
                     <div class="price_a"><a href="{% url "app:buycarone" %}">去购物车结算</a></div>
                     <!--End 购物车已登录 End-->
                     {% endif %}
@@ -136,14 +136,14 @@
                 </div>
                 <!--End 商品分类详情 End-->
                 <ul class="menu_r">
-                    <li><a href="Index.html">首页</a></li>
-                    <li><a href="Food.html">美食</a></li>
-                    <li><a href="Fresh.html">生鲜</a></li>
-                    <li><a href="HomeDecoration.html">家居</a></li>
-                    <li><a href="SuitDress.html">女装</a></li>
-                    <li><a href="MakeUp.html">美妆</a></li>
-                    <li><a href="Digital.html">数码</a></li>
-                    <li><a href="GroupBuying.html">团购</a></li>
+                    <li><a href="{% url "app:index" %}">首页</a></li>
+                    <li><a href="#">美食</a></li>
+                    <li><a href="#">生鲜</a></li>
+                    <li><a href="#">家居</a></li>
+                    <li><a href="#">女装</a></li>
+                    <li><a href="#">美妆</a></li>
+                    <li><a href="#">数码</a></li>
+                    <li><a href="#">团购</a></li>
                 </ul>
             </div>
         </div>

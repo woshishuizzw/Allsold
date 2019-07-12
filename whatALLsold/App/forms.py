@@ -24,11 +24,12 @@ def check_username(value):
 
 
 def check_yzm(value):
-    res = Session.objects.all()[0]
-    yzm = res.get_decoded().get("yzm")
+    res = Session.objects.filter(session_key="ya8rwitbl32qbn01g269ol2vcf15tkqs").first()
+    # yzm = res.get_decoded().get("yzm")
+    yzm = res.session_data
     print(yzm, value)
     if value.isdigit():
-        if yzm != int(value):
+        if int(yzm) != int(value):
             raise ValidationError("验证码错误")
     else:
         raise ValidationError("验证码错误")

@@ -59,14 +59,14 @@
                 </div>
                 <!--End 商品分类详情 End-->
                 <ul class="menu_r">
-                    <li><a href="Index.html">首页</a></li>
-                    <li><a href="Food.html">美食</a></li>
-                    <li><a href="Fresh.html">生鲜</a></li>
-                    <li><a href="HomeDecoration.html">家居</a></li>
-                    <li><a href="SuitDress.html">女装</a></li>
-                    <li><a href="MakeUp.html">美妆</a></li>
-                    <li><a href="Digital.html">数码</a></li>
-                    <li><a href="GroupBuying.html">团购</a></li>
+           <li><a href="{% url "app:index" %}">首页</a></li>
+                    <li><a href="#">美食</a></li>
+                    <li><a href="#">生鲜</a></li>
+                    <li><a href="#">家居</a></li>
+                    <li><a href="#">女装</a></li>
+                    <li><a href="#">美妆</a></li>
+                    <li><a href="#">数码</a></li>
+                    <li><a href="#">团购</a></li>
                 </ul>
             </div>
         </div>
@@ -75,7 +75,7 @@
 {% block body %}
 <div class="i_bg">  
     <div class="content mar_20">
-    	<img src="images/img3.jpg" />        
+    	<img src="{% static "app/images/img3.jpg"  %}" />
     </div>
     
     <!--Begin 第三步：提交订单 Begin -->
@@ -86,12 +86,12 @@
             <table border="0" style="width:1000px; text-align:center;" cellspacing="0" cellpadding="0">
               <tr height="35">
                 <td style="font-size:18px;">
-                	感谢您在本店购物！您的订单已提交成功，请记住您的订单号: <font color="#ff4e00">2015092598275</font>
+                	感谢您在本店购物！您的订单已提交成功，请记住您的订单号: <font color="#ff4e00">{{ request.session.onumber }}</font>
                 </td>
               </tr>
               <tr>
                 <td style="font-size:14px; font-family:'宋体'; padding:10px 0 20px 0; border-bottom:1px solid #b6b6b6;">
-                	您选定的配送方式为: <font color="#ff4e00">申通快递</font>； &nbsp; &nbsp;您选定的支付方式为: <font color="#ff4e00">支付宝</font>； &nbsp; &nbsp;您的应付款金额为: <font color="#ff4e00">￥<span id="money">888.00</span></font>
+                	您选定的配送方式为: <font color="#ff4e00">申通快递</font>； &nbsp; &nbsp;您选定的支付方式为: <font color="#ff4e00">支付宝</font>； &nbsp; &nbsp;您的应付款金额为: <font color="#ff4e00">￥<span id="money">{{ request.session.moneysum }}</span></font>
                 </td>
               </tr>
               <tr>
@@ -105,9 +105,9 @@
                         {% csrf_token %}
 {#                	<div class="btn_u" style="margin:0 auto; padding:0 20px; width:120px;">#}
                         <input type="submit" value="立即使用支付宝支付" style="background-color: #ff6600"><br>
-{#                        <input type="hidden" value="">#}
+                        <input type="hidden" name="money" value="{{ request.session.moneysum }}">
 {#                        </div>#}
-                	<a href="#">首页</a> &nbsp; &nbsp; <a href="#">用户中心</a>
+                	<a href="{% url "app:index" %}">首页</a> &nbsp; &nbsp; <a href="{% url "app:member" %}">用户中心</a>
                     </form>
                 </td>
               </tr>

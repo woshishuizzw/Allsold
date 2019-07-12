@@ -5,6 +5,8 @@
 {% block js %}
     {{ block.super }}
     <script type="text/javascript" src="{% static 'app/js/n_nav.js' %}"></script>
+
+
 {% endblock js %}
 
 <!--Begin Menu Begin-->
@@ -49,15 +51,15 @@
                     </div>
                 </div>
                 <!--End 商品分类详情 End-->
-                <ul class="menu_r">
-                    <li><a href="Index.html">首页</a></li>
-                    <li><a href="Food.html">美食</a></li>
-                    <li><a href="Fresh.html">生鲜</a></li>
-                    <li><a href="HomeDecoration.html">家居</a></li>
-                    <li><a href="SuitDress.html">女装</a></li>
-                    <li><a href="MakeUp.html">美妆</a></li>
-                    <li><a href="Digital.html">数码</a></li>
-                    <li><a href="GroupBuying.html">团购</a></li>
+                              <ul class="menu_r">
+      <li><a href="{% url "app:index" %}">首页</a></li>
+                    <li><a href="#">美食</a></li>
+                    <li><a href="#">生鲜</a></li>
+                    <li><a href="#">家居</a></li>
+                    <li><a href="#">女装</a></li>
+                    <li><a href="#">美妆</a></li>
+                    <li><a href="#">数码</a></li>
+                    <li><a href="#">团购</a></li>
                 </ul>
             </div>
         </div>
@@ -68,7 +70,7 @@
     	<span class="fl">全部 > 美妆个护 > 香水 > </span>
         <span class="n_ch">
             <span class="fl">品牌：<font>香奈儿</font></span>
-            <a href="#"><img src="images/s_close.gif" /></a>
+            <a href="#"><img src="{% static "app/images/s_close.gif" %}" /></a>
         </span>
     </div>
     <!--Begin 筛选条件 Begin-->
@@ -77,7 +79,7 @@
           <tr valign="top">
             <td width="70">&nbsp; 品牌：</td>
             <td class="td_a">
-                <a href="">全部</a>
+                <a href="{% url "app:categorylist" threeid=threeid  %}">全部</a>
                 {% for brand in brands %}
                     {% if brand.category.id == threeid %}
                 <a href="{% url "app:categorylist" threeid=threeid brandid=brand.id %}" class="">{{ brand.brandname }}</a>
@@ -85,11 +87,11 @@
                 {% endfor %}
             </td>
           </tr>
-          <tr valign="top">
-            <td>&nbsp; 价格：</td>                                                                                                       
-            <td class="td_a">
-                <a href="">全部</a><a href="#">0-499</a><a href="#" class="now">500-999</a><a href="#">1000-1499</a><a href="#">1500以上</a></td>
-          </tr>                                              
+{#          <tr valign="top">#}
+{#            <td>&nbsp; 价格：</td>                                                                                                       #}
+{#            <td class="td_a">#}
+{#                <a href="">全部</a><a href="#">0-499</a><a href="#" class="now">500-999</a><a href="#">1000-1499</a><a href="#">1500以上</a></td>#}
+{#          </tr>                                              #}
 {#          <tr>#}
 {#            <td>&nbsp; 类型：</td>#}
 {#            <td class="td_a"><a href="">全部</a><a href="#">女士香水</a><a href="#">男士香水</a><a href="#">其它</a></td>#}
@@ -110,35 +112,35 @@
             </div>
         	<ul>
             	<li>
-                    <div class="img"><a href="#"><img src="images/his_1.jpg" width="185" height="162" /></a></div>
+                    <div class="img"><a href="#"><img src="{% static "app/images/his_1.jpg" %}" width="185" height="162" /></a></div>
                 	<div class="name"><a href="#">Dior/迪奥香水2件套装</a></div>
                     <div class="price">
                     	<font>￥<span>368.00</span></font> &nbsp; 18R
                     </div>
                 </li>
                 <li>
-                    <div class="img"><a href="#"><img src="images/his_2.jpg" width="185" height="162" /></a></div>
+                    <div class="img"><a href="#"><img src="{% static "app/images/his_2.jpg" %}" width="185" height="162" /></a></div>
                 	<div class="name"><a href="#">Dior/迪奥香水2件套装</a></div>
                     <div class="price">
                     	<font>￥<span>768.00</span></font> &nbsp; 18R
                     </div>
                 </li>
                 <li>
-                    <div class="img"><a href="#"><img src="images/his_3.jpg" width="185" height="162" /></a></div>
+                    <div class="img"><a href="#"><img src="{% static "app/images/his_3.jpg" %}" width="185" height="162" /></a></div>
                 	<div class="name"><a href="#">Dior/迪奥香水2件套装</a></div>
                     <div class="price">
                     	<font>￥<span>680.00</span></font> &nbsp; 18R
                     </div>
                 </li>
                 <li>
-                    <div class="img"><a href="#"><img src="images/his_4.jpg" width="185" height="162" /></a></div>
+                    <div class="img"><a href="#"><img src="{% static "app/images/his_4.jpg" %}" width="185" height="162" /></a></div>
                 	<div class="name"><a href="#">Dior/迪奥香水2件套装</a></div>
                     <div class="price">
                     	<font>￥<span>368.00</span></font> &nbsp; 18R
                     </div>
                 </li>
                 <li>
-                    <div class="img"><a href="#"><img src="images/his_5.jpg" width="185" height="162" /></a></div>
+                    <div class="img"><a href="#"><img src="{% static "app/images/his_5.jpg" %}" width="185" height="162" /></a></div>
                 	<div class="name"><a href="#">Dior/迪奥香水2件套装</a></div>
                     <div class="price">
                     	<font>￥<span>368.00</span></font> &nbsp; 18R
@@ -174,10 +176,10 @@
                             <font>￥<span>{{ goods.price }}</span></font> &nbsp;
                         </div>
                         <div class="name"><a href="{% url "app:product" gid=goods.id %}">{{ goods.goodsname }}</a></div>
-                        <div class="carbg">
-                        	<a href="#" class="ss">收藏</a>
-                            <a href="#" class="j_car">加入购物车</a>
-                        </div>
+{#                        <div class="carbg">#}
+{#                        	<a href="" id="shouchang" class="ss">收藏</a>#}
+{#                            <a  id="doshopping" class="j_car">加入购物车</a>#}
+{#                        </div>#}
                     </li>
                     {% endfor %}
 {#                    <li>#}
